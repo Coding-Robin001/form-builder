@@ -11,7 +11,7 @@ export const signUp = async (email: string, password: string, name: string) => {
         email,
         password,
         name,
-        callbackURL: "/dashboard",
+        callbackURL: "/auth-dashboard",
       },
     })
     return result
@@ -31,7 +31,7 @@ export const signIn = async (email: string, password: string) => {
       body: {
         email,
         password,
-        callbackURL: "/dashboard",
+        callbackURL: "/auth-dashboard",
       },
     })
     return result

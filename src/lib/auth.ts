@@ -7,7 +7,7 @@ export const auth = betterAuth({
 
     baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
 
-    database: prismaAdapter(prisma, { provider: "sqlite" }),
+    database: prismaAdapter(prisma, { provider: "postgresql" }),
 
     emailAndPassword: {
         enabled: true
@@ -24,8 +24,8 @@ export const auth = betterAuth({
     },
     plugins: [nextCookies()],
     redirect: {
-        afterSignIn: "/dashboard",
-        afterSignUp: "/dashboard",
+        afterSignIn: "/auth-dashboard",
+        afterSignUp: "/auth-dashboard",
     },
     
 })

@@ -58,6 +58,7 @@ const AuthClientPage = () => {
         if (!result.user) {
           setErrors({ general: "Failed to create account!" });
         }
+        setIsSignIn(true)
       }
     } catch (error) {
       setErrors({
@@ -84,7 +85,7 @@ const AuthClientPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
-        
+
         {/* Title */}
         <div className="flex justify-center mb-6">
           <span className="text-2xl font-bold">
