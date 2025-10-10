@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/lib/actions/auth-actions";
+import { signOut } from "@/app/actions/auth-actions";
 import { auth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
