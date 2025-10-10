@@ -64,7 +64,7 @@ export default function Dashboard() {
       <section>
         <h2 className="text-2xl font-bold mb-6 text-emerald-300">Your Forms</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {/* <CreateFormButton /> */}
+          <CreateFormButton />
         </div>
       </section>
     </div>
