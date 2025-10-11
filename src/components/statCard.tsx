@@ -1,32 +1,22 @@
 import { JSX } from "react";
-import { getFormStats } from "../actions/form";
-
-type FormStats = {
-  visits: number;
-  submissions: number;
-  submissionRate: number;
-  bounceRate: number;
-};
 
 type StatCardProps = {
-  statKey: keyof FormStats;
   title: string;
   description: string;
   color: string;
   icon: JSX.Element;
+  value: number;
   format: (val: number) => string;
 };
 
-export default async function StatCard({
-  statKey,
+export default function StatCard({
   title,
   description,
   color,
   icon,
+  value,
   format,
 }: StatCardProps) {
-  const stats = await getFormStats();
-  const value = stats?.[statKey] ?? 0;
   const formatted = format(value);
 
   return (

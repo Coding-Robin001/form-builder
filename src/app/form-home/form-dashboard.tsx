@@ -1,10 +1,14 @@
 import { Suspense } from "react";
-import { PlusCircle, BarChart2, FileText, Percent, TrendingDown } from "lucide-react";
-import StatCard from "./statCard";
-import StatCardSkeleton from "./statCardSkeleton";
-import CreateFormButton from "@/components/createFormBtn";
+import { BarChart2, FileText, Percent, TrendingDown } from "lucide-react";
+import { getFormStats } from "@/app/actions/form";
+import StatCard from "../../components/statCard";
+import StatCardSkeleton from "../../components/statCardSkeleton";
+import CreateFormButton from "../../components/createFormBtn";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  // Fetch all stats once on the server
+  const stats = await getFormStats();
+
   const statsConfig = [
     {
       key: "visits",
@@ -38,7 +42,7 @@ export default function Dashboard() {
       icon: <TrendingDown className="w-6 h-6 text-red-400" />,
       format: (val: number) => `${val.toFixed(1)}%`,
     },
-  ] as const
+  ] as const;
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-black via-gray-900 to-black text-white shadow-md p-8">
@@ -47,18 +51,16 @@ export default function Dashboard() {
         {statsConfig.map((item) => (
           <Suspense key={item.key} fallback={<StatCardSkeleton />}>
             <StatCard
-              statKey={item.key}
               title={item.title}
               description={item.description}
               color={item.color}
               icon={item.icon}
+              value={stats?.[item.key] ?? 0}
               format={item.format}
             />
           </Suspense>
         ))}
       </div>
-
-      {/* Forms Section */}
 
       {/* Forms Section */}
       <section>

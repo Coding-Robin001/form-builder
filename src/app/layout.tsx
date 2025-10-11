@@ -16,10 +16,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-  
+  let session = null
+
+  try {
+    session = await auth.api.getSession({
+      headers: await headers(),
+    })
+  } catch (error) {
+    console.error("Failed to get session:", error)
+  }
+
+
   return (
     <html lang="en">
       <body
