@@ -19,11 +19,8 @@ export default function CreateFormButton() {
     setErrors({});
     setServerError(null);
 
-    // client validation
     const formErrors: { name?: string; description?: string } = {};
-    if (!name.trim()) formErrors.name = "Form title is required.";
-    if (name.trim().length < 4)
-      formErrors.name = "Form title must be at least 4 characters long.";
+    if (!name.trim() || name.trim().length < 4) formErrors.name = "title is required and must be atleast 4 characters long";
 
     if (description.trim().length < 5)
       formErrors.description = "Description must be at least 5 characters long.";
@@ -37,7 +34,6 @@ export default function CreateFormButton() {
     try {
       const result = await createForm(name, description);
 
-
       if (!result.success) {
         setServerError(result.message);
         return;
@@ -46,17 +42,18 @@ export default function CreateFormButton() {
       setToast({ message: "Form created successfully!", type: "success" });
       alert(result.form?.id)
 
-      // Success — reset form
       setIsOpen(false);
       setName("");
       setDescription("");
+
     } catch (error: any) {
       setServerError("An unexpected error occurred.");
       setToast({ message: "Something went wrong.", type: "error" });
+
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
     <>

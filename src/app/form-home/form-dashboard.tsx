@@ -6,7 +6,7 @@ import StatCardSkeleton from "../../components/statCardSkeleton";
 import CreateFormButton from "../../components/createFormBtn";
 
 export default async function Dashboard() {
-  // Fetch all stats once on the server
+
   const stats = await getFormStats();
 
   const statsConfig = [

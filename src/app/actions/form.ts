@@ -1,16 +1,11 @@
 "use server"
 
-
 import { headers } from "next/headers"
 import { auth } from "../../lib/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
-
-
-
-class UserNotFoundErr extends Error { }
-
+class UserNotFoundErr extends Error {}
 
 export async function getFormStats() {
 
@@ -60,7 +55,6 @@ export async function createForm(name: string, description: string | undefined) 
     console.log(name, description)
 
     try {
-        // Get the logged-in user (optional)
         const session = await auth.api.getSession({
             headers: await headers()
         })
@@ -69,7 +63,6 @@ export async function createForm(name: string, description: string | undefined) 
             throw new UserNotFoundErr()
         }
 
-        // Create form in DB
         const newForm = await prisma.form.create({
             data: {
                 name,
