@@ -5,7 +5,7 @@ import { auth } from "../../lib/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
-class UserNotFoundErr extends Error {}
+class UserNotFoundErr extends Error { }
 
 export async function getFormStats() {
 
@@ -52,8 +52,6 @@ export async function getFormStats() {
 
 export async function createForm(name: string, description: string | undefined) {
 
-    console.log(name, description)
-
     try {
         const session = await auth.api.getSession({
             headers: await headers()
@@ -80,4 +78,23 @@ export async function createForm(name: string, description: string | undefined) 
         return { success: false, message: "Failed to create form" };
     }
 
+}
+
+export async function getForms() {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    if (!session) {
+        throw new UserNotFoundErr()
+    }
+
+    return await prisma.form.findMany({
+        where: {
+            userId: session.user.id
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
 }

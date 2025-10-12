@@ -4,6 +4,8 @@ import { getFormStats } from "@/app/actions/form";
 import StatCard from "../../components/statCard";
 import StatCardSkeleton from "../../components/statCardSkeleton";
 import CreateFormButton from "../../components/createFormBtn";
+import { FormCardSkeleton } from "@/components/formCardSkeleton";
+import { FormCard, FormCards } from "@/components/formCard";
 
 export default async function Dashboard() {
 
@@ -62,13 +64,29 @@ export default async function Dashboard() {
         ))}
       </div>
 
+      <hr className="my-14 border-t border-gray-800 opacity-80" />
+
+
       {/* Forms Section */}
       <section>
         <h2 className="text-2xl font-bold mb-6 text-emerald-300">Your Forms</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {/* Create Form Button (Styled to match cards) */}
           <CreateFormButton />
+
+          {/* Form Cards */}
+          <Suspense
+            fallback={[1, 2, 3, 4, 5, 6].map((el) => (
+              <FormCardSkeleton key={el} />
+            ))}
+          >
+            <FormCards />
+          </Suspense>
         </div>
       </section>
+
     </div>
   );
 }

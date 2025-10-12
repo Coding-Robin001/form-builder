@@ -60,7 +60,7 @@ export default function CreateFormButton() {
       {/* Create Button */}
       <div
         onClick={() => setIsOpen(true)}
-        className="border-2 border-dashed border-white/70 hover:border-orange-400 transition rounded-2xl flex flex-col items-center justify-center h-56 cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black hover:bg-[#17231c] shadow-md hover:shadow-lg hover:shadow-orange-500/20"
+        className="border-2 border-dashed border-white/70 hover:border-orange-400 transition rounded-2xl flex flex-col items-center justify-center h-66 cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black hover:bg-[#17231c] shadow-md hover:shadow-lg hover:shadow-orange-500/20"
       >
         <PlusCircle className="w-12 h-12 text-orange-400 mb-3" />
         <p className="text-lg font-semibold text-gray-300">Create New Form</p>
