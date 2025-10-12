@@ -4,8 +4,12 @@ import { useState } from "react";
 import { Loader2, PlusCircle, X } from "lucide-react";
 import { createForm } from "@/app/actions/form";
 import Toast from "./toast";
+import { useRouter } from "next/navigation";
 
 export default function CreateFormButton() {
+
+  const router = useRouter()
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState("");
@@ -39,12 +43,13 @@ export default function CreateFormButton() {
         return;
       }
 
-      setToast({ message: "Form created successfully!", type: "success" });
-      alert(result.form?.id)
 
       setIsOpen(false);
       setName("");
       setDescription("");
+
+      setToast({ message: "Form created successfully!", type: "success" });
+      router.push(`/builder/${result.form?.id}`)
 
     } catch (error: any) {
       setServerError("An unexpected error occurred.");
