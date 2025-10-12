@@ -1,5 +1,8 @@
 import React from "react";
 import { getForms } from "@/app/actions/form";
+import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
+import { Eye, Pencil } from "lucide-react"; // clean icons
 
 // Define your Form type based on your schema
 interface Form {
@@ -9,6 +12,8 @@ interface Form {
     status?: "Draft" | "Published" | string;
     createdAt: Date | string;
     published: boolean;
+    submissions: number;
+    visits: number;
 }
 
 // Parent component — async (fetches forms)
@@ -50,7 +55,7 @@ export const FormCard = ({ form }: { form: Form }) => {
 
                 {/* Time */}
                 <p className="text-md text-gray-400">
-                    {new Date(form.createdAt).toLocaleDateString()}
+                    {formatDistanceToNow(new Date(form.createdAt), { addSuffix: true })}
                 </p>
 
                 {/* Description */}
@@ -59,10 +64,33 @@ export const FormCard = ({ form }: { form: Form }) => {
                 </p>
             </div>
 
+
             {/* Button */}
-            <button className="w-full border cursor-pointer border-gray-700 bg-gray-800 rounded-lg py-2 text-md font-medium hover:bg-blue-600 hover:border-blue-600 transition">
-                Edit form ✏️
-            </button>
+            {
+                form.published ? (
+                    <Link href={`/forms/${form.id}`} className="w-full">
+                        <button
+                            className="w-full border cursor-pointer border-gray-700 bg-gray-800 rounded-lg py-2 text-md font-medium flex items-center justify-center gap-2 hover:bg-blue-600 hover:border-blue-600 transition"
+                        >
+                            <Eye className="w-4 h-4" />
+                            View submissions
+                        </button>
+                    </Link>
+                ) : (
+                    <Link href={`/builder/${form.id}`} className="w-full">
+                        <button
+                            className="w-full border cursor-pointer border-gray-700 bg-gray-800 rounded-lg py-2 text-md font-medium flex items-center justify-center gap-2 hover:bg-blue-600 hover:border-blue-600 transition"
+                        >
+                            <Pencil className="w-4 h-4" />
+                            Edit form
+                        </button>
+                    </Link>
+                )
+            }
+
+
+
+
         </div>
     );
 };
