@@ -17,6 +17,9 @@ import {
     LayoutDashboard,
 } from "lucide-react";
 import { Form } from "@prisma/client"
+import PreviewDialogBtn from "./previewDialogBtn";
+import SaveFormBtn from "./saveFormBtn";
+import PublishFormBtn from "./publishFormBtn";
 
 
 
@@ -30,15 +33,15 @@ export default function FormBuilder({ form }: { form: Form }) {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button className="px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-emerald-400 transition">
-                        Preview
-                    </button>
-                    <button className="px-4 py-1.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-black rounded-lg shadow-lg shadow-emerald-500/30 transition">
-                        Save
-                    </button>
-                    <button className="px-4 py-1.5 text-sm font-semibold bg-emerald-400 hover:bg-emerald-300 text-black rounded-lg transition">
-                        Publish
-                    </button>
+                    <PreviewDialogBtn />
+                    {
+                        !form.published && (
+                            <>
+                                <SaveFormBtn />
+                                <PublishFormBtn />
+                            </>
+                        )
+                    }
                 </div>
             </header>
 

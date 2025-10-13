@@ -23,7 +23,7 @@ export default async function RootLayout({
       headers: await headers(),
     })
   } catch (error) {
-    console.error("Failed to get session:", error)
+    console.error("Bad Network, check internet and retry:", error)
   }
 
 
