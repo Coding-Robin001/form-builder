@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import { Loader2, PlusCircle, X } from "lucide-react";
-import { createForm } from "@/app/actions/form";
+import { createForm } from "../actions/form";
 import Toast from "./toast";
 import { useRouter } from "next/navigation";
 
@@ -42,7 +42,6 @@ export default function CreateFormButton() {
         setServerError(result.message);
         return;
       }
-
 
       setIsOpen(false);
       setName("");

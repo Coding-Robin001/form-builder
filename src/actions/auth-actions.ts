@@ -1,7 +1,7 @@
 "use server"
 
 import { headers } from "next/headers"
-import { auth } from "../../lib/auth"
+import { auth } from "../lib/auth"
 import { redirect } from "next/navigation"
 
 export const signUp = async (email: string, password: string, name: string) => {

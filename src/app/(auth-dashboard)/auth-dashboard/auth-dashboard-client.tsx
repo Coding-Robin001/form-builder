@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/app/actions/auth-actions";
+import { signOut } from "../../../actions/auth-actions";
 import { auth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const AuthDashboardClient = ({ session }: { session: Session | null }) => {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white p-6 rounded-2xl shadow">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
-              Welcome to Your Dashboard 🎉
+              Welcome to Your Authentication Dashboard 🎉
 
             </h1>
             <p className="text-gray-500 text-sm mt-1">
@@ -81,12 +81,24 @@ const AuthDashboardClient = ({ session }: { session: Session | null }) => {
 
           <div className="bg-white rounded-xl shadow p-5">
             <h3 className="text-gray-500 text-sm mb-1">Email Verified</h3>
-            <p
-              className={`text-lg font-semibold ${user?.emailVerified ? "text-green-600" : "text-red-500"
-                }`}
-            >
-              {user?.emailVerified ? "Yes" : "No"}
-            </p>
+
+            <div className="flex items-center justify-between">
+              <p
+                className={`text-lg font-semibold ${user?.emailVerified ? "text-green-600" : "text-red-500"
+                  }`}
+              >
+                {user?.emailVerified ? "Yes" : "No"}
+              </p>
+
+              {!user?.emailVerified && (
+                <a
+                  href="/verify-email"
+                  className="px-3 py-1 rounded-md bg-blue-500 text-white text-sm font-medium hover:bg-blue-400 transition-colors"
+                >
+                  Verify email →
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="bg-white rounded-xl shadow p-5">

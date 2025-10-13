@@ -1,6 +1,6 @@
 "use client"
 
-import { signIn, signInSocial, signUp } from "@/app/actions/auth-actions";
+import { signIn, signInSocial, signUp } from "../../actions/auth-actions";
 import React, { useState } from "react";
 
 const AuthClientPage = () => {

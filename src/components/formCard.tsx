@@ -1,10 +1,9 @@
 import React from "react";
-import { getForms } from "@/app/actions/form";
+import { getForms } from "../actions/form";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Eye, Pencil } from "lucide-react"; // clean icons
 
-// Define your Form type based on your schema
 interface Form {
     id: number;
     name: string;
@@ -87,9 +86,6 @@ export const FormCard = ({ form }: { form: Form }) => {
                     </Link>
                 )
             }
-
-
-
 
         </div>
     );

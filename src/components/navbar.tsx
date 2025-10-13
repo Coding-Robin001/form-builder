@@ -12,9 +12,8 @@ export default function Navbar({ session }: { session: Session | null }) {
   const pathname = usePathname()
 
   const navLinks = [
-    // { name: "Home", href: "/" },
-    { name: "form-page", href: "/form-home" },
-    ...(session ? [{ name: "auth-Dashboard", href: "/auth-dashboard" }] : []),
+    { name: "home-form", href: "/" },
+    ...(session ? [{ name: "auth", href: "/auth-dashboard" }] : []),
     ...(session ? [] : [{ name: "Login", href: "/auth" }]),
   ]
 

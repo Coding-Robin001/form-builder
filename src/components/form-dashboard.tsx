@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { BarChart2, FileText, Percent, TrendingDown } from "lucide-react";
-import { getFormStats } from "@/app/actions/form";
-import StatCard from "../../components/statCard";
-import StatCardSkeleton from "../../components/statCardSkeleton";
-import CreateFormButton from "../../components/createFormBtn";
+import { getFormStats } from "../actions/form";
+import StatCard from "./statCard";
+import StatCardSkeleton from "./statCardSkeleton";
+import CreateFormButton from "./createFormBtn";
 import { FormCardSkeleton } from "@/components/formCardSkeleton";
-import { FormCard, FormCards } from "@/components/formCard";
+import { FormCards } from "@/components/formCard";
 
 export default async function Dashboard() {
 
@@ -65,7 +65,6 @@ export default async function Dashboard() {
       </div>
 
       <hr className="my-14 border-t border-gray-800 opacity-80" />
-
 
       {/* Forms Section */}
       <section>
