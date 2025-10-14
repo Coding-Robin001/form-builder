@@ -20,6 +20,7 @@ import { Form } from "@prisma/client"
 import PreviewDialogBtn from "./previewDialogBtn";
 import SaveFormBtn from "./saveFormBtn";
 import PublishFormBtn from "./publishFormBtn";
+import Designer from "./designer";
 
 
 
@@ -27,7 +28,7 @@ export default function FormBuilder({ form }: { form: Form }) {
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
             {/* Top Bar */}
-            <header className="flex items-center justify-between px-6 py-3 border-b border-gray-800 bg-gray-950/70 backdrop-blur-sm">
+            <nav className="flex items-center justify-between px-6 py-3 border-b border-gray-800 bg-gray-950/70 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
                     <span className="text-sm text-gray-400">Form: {form.name}</span>
                 </div>
@@ -43,10 +44,18 @@ export default function FormBuilder({ form }: { form: Form }) {
                         )
                     }
                 </div>
-            </header>
+            </nav>
 
-            {/* Main Layout */}
-            <div className="flex flex-1">
+            <div
+                className="flex flex-1"
+                style={{
+                    backgroundImage: "url('/charlie-brown.svg')",
+                    backgroundRepeat: "repeat",
+                    backgroundSize: "auto",
+                    backgroundPosition: "center",
+                    backgroundBlendMode: "overlay",
+                }}
+            >
                 {/* Left: Form Designer Area */}
                 <main className="flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
                     <div className="w-[70%] h-[80%] border-2 border-dashed border-gray-700 rounded-2xl flex items-center justify-center text-gray-500 text-lg hover:border-emerald-500 hover:text-emerald-400 transition">
@@ -55,56 +64,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                 </main>
 
                 {/* Right: Sidebar */}
-                <aside className="w-72 bg-gray-950/70 border-l border-gray-800 p-5 flex flex-col gap-6 overflow-y-auto">
-                    {/* Layout Elements */}
-                    <section>
-                        <h2 className="text-sm uppercase text-gray-400 font-semibold mb-3 tracking-wider">
-                            Layout elements
-                        </h2>
-                        <div className="grid grid-cols-2 gap-3">
-                            {[
-                                { label: "Title", icon: Heading1 },
-                                { label: "Subtitle", icon: Heading2 },
-                                { label: "Paragraph", icon: Text },
-                                { label: "Spacer", icon: AlignJustify },
-                                { label: "Separator", icon: SeparatorHorizontal },
-                            ].map(({ label, icon: Icon }) => (
-                                <div
-                                    key={label}
-                                    className="flex flex-col items-center justify-center bg-gray-900/60 hover:bg-gray-800 text-sm font-medium text-gray-300 rounded-lg py-3 cursor-pointer border border-gray-800 hover:border-emerald-500/40 transition"
-                                >
-                                    <Icon className="w-5 h-5 text-emerald-400 mb-1" />
-                                    <span>{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Form Elements */}
-                    <section>
-                        <h2 className="text-sm uppercase text-gray-400 font-semibold mb-3 tracking-wider">
-                            Form elements
-                        </h2>
-                        <div className="grid grid-cols-2 gap-3">
-                            {[
-                                { label: "Text Field", icon: ListChecks },
-                                { label: "Text Area", icon: Calendar },
-                                { label: "Select", icon: ListChecks },
-                                { label: "Number", icon: Hash },
-                                { label: "Date Picker", icon: Calendar },
-                                { label: "Checkbox", icon: LayoutDashboard },
-                            ].map(({ label, icon: Icon }) => (
-                                <div
-                                    key={label}
-                                    className="flex flex-col items-center justify-center bg-gray-900/60 hover:bg-gray-800 text-sm font-medium text-gray-300 rounded-lg py-3 cursor-pointer border border-gray-800 hover:border-emerald-500/40 transition"
-                                >
-                                    <Icon className="w-5 h-5 text-emerald-400 mb-1" />
-                                    <span>{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                </aside>
+                <Designer />
             </div>
 
             {/* Footer Info */}
