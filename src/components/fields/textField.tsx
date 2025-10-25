@@ -22,7 +22,7 @@ export const TextFieldFormElement: FormElement = {
         icon: ListChecks,
         label: "text field"
     },
-    designerComponent: () => <div>designer component</div>,
+    designerComponent: () => <div className="text-red-500">designer component</div>,
     formComponent: () => <div>form component</div>,
     propertiesComponent: () => <div>properties component</div>,
 

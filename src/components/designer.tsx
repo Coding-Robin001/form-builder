@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import DesignerSideBar from './designerSideBar'
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core'
 import UseDesigner from './hooks/useDesigner'
-import { ElementsType, FormElements } from './formElements'
+import { ElementsType, FormElementInstance, FormElements } from './formElements'
 import { idGenerator } from '@/lib/idGenerator'
 
 function Designer() {
@@ -21,13 +21,14 @@ function Designer() {
         onDragEnd: (event: DragEndEvent) => {
             const { active, over } = event
             if (!active || !over) return
-            console.log("drag end event ", event)
 
             const isDesignerBtnElement = active?.data?.current?.isDesignerBtnElement
             if (isDesignerBtnElement) {
                 const type = active?.data?.current?.type
                 const newElement = FormElements[type as ElementsType].construct(idGenerator())
+                addElement(0, newElement)
             }
+            console.log("drag end event ", event)
         }
     })
 
@@ -47,15 +48,7 @@ function Designer() {
             <main className="flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
                 <div
                     ref={droppable.setNodeRef}
-                    className="
-      w-[70%] h-[80%]
-      border-2 border-dashed border-gray-700 rounded-2xl
-      text-gray-400 text-base font-medium
-      relative
-      flex flex-col items-center justify-start
-      bg-gray-950/40
-      transition-colors duration-300
-    "
+                    className=" w-[70%] h-[80%] border-2 border-dashed border-gray-700 rounded-2xl  text-gray-400 text-base font-medium  relative flex flex-col items-center justify-start bg-gray-950/40 transition-colors duration-300"
                 >
                     {/* Center message */}
                     {!droppable.isOver && (
@@ -67,18 +60,19 @@ function Designer() {
                     {/* Drop highlight area */}
                     {droppable.isOver && (
                         <div
-                            className="
-          absolute top-0 left-0 w-full h-[120px]
-          bg-gray-800/70 border-b border-gray-700
-          flex items-center justify-center
-          text-gray-200 font-semibold tracking-wide
-          backdrop-blur-sm
-          transition-all duration-200
-        "
+                            className="absolute top-0 left-0 w-full h-[120px] bg-gray-800/70 border-b border-gray-700 flex items-center justify-center text-gray-200 font-semibold tracking-wide backdrop-blur-sm transition-all duration-200 "
                         >
                             <span className="uppercase text-sm">Place Element</span>
                         </div>
                     )}
+
+                    {/* rendr list of elements */}
+                    {
+                        elements.length > 0 &&
+                        elements?.map((element) => (
+                            <DesignerElementWrapper key={element.id} element={element} />
+                        ))
+                    }
                 </div>
             </main>
 
@@ -89,5 +83,14 @@ function Designer() {
         </div>
     )
 }
+
+
+
+function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
+    const DesignerElement = FormElements[element.type].designerComponent
+    return <DesignerElement />
+}
+
+
 
 export default Designer
