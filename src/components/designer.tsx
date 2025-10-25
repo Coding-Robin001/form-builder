@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DesignerSideBar from './designerSideBar'
 import { useDroppable } from '@dnd-kit/core'
+import { FormElementInstance } from './formElements'
 
 function Designer() {
+
 
     const droppable = useDroppable({
         id: "designer-drop-area",
@@ -10,6 +12,8 @@ function Designer() {
             isDesignerDropArea: true,
         }
     })
+
+
     return (
         <div
             className="flex flex-1"
