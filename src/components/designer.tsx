@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import DesignerSideBar from './designerSideBar'
 import { useDroppable } from '@dnd-kit/core'
-import { FormElementInstance } from './formElements'
+import UseDesigner from './hooks/useDesigner'
 
 function Designer() {
+
+    const { elements, addElement } = UseDesigner()
 
 
     const droppable = useDroppable({

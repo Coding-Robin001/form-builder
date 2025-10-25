@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import DesignerContextProvider from "@/components/context/designerContext";
 
 
 export const metadata: Metadata = {
@@ -31,10 +32,13 @@ export default async function RootLayout({
     <html lang="en">
       <body
       >
-        <Navbar session={session} />
-        <main>
-          {children}
-        </main>
+        <DesignerContextProvider>
+          <Navbar session={session} />
+          <main>
+            {children}
+          </main>
+        </DesignerContextProvider>
+
       </body>
     </html>
   );
