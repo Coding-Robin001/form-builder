@@ -51,7 +51,7 @@ function Designer() {
                     className=" w-[70%] h-[80%] border-2 border-dashed border-gray-700 rounded-2xl  text-gray-400 text-base font-medium  relative flex flex-col items-center justify-start bg-gray-950/40 transition-colors duration-300"
                 >
                     {/* Center message */}
-                    {!droppable.isOver && (
+                    {!droppable.isOver && elements.length === 0 && (
                         <p className="absolute inset-0 flex items-center justify-center text-gray-500 font-semibold tracking-wide">
                             Drop your form elements here
                         </p>
@@ -88,7 +88,7 @@ function Designer() {
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
     const DesignerElement = FormElements[element.type].designerComponent
-    return <DesignerElement />
+    return <DesignerElement elementInstance={element} />
 }
 
 
