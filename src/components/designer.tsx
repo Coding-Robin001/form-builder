@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import DesignerSideBar from './designerSideBar'
-import { useDroppable } from '@dnd-kit/core'
+import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core'
 import UseDesigner from './hooks/useDesigner'
+import { ElementsType, FormElements } from './formElements'
+import { idGenerator } from '@/lib/idGenerator'
 
 function Designer() {
 
@@ -12,6 +14,20 @@ function Designer() {
         id: "designer-drop-area",
         data: {
             isDesignerDropArea: true,
+        }
+    })
+
+    useDndMonitor({
+        onDragEnd: (event: DragEndEvent) => {
+            const { active, over } = event
+            if (!active || !over) return
+            console.log("drag end event ", event)
+
+            const isDesignerBtnElement = active?.data?.current?.isDesignerBtnElement
+            if (isDesignerBtnElement) {
+                const type = active?.data?.current?.type
+                const newElement = FormElements[type as ElementsType].construct(idGenerator())
+            }
         }
     })
 
