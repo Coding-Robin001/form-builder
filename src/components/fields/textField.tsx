@@ -28,6 +28,42 @@ type CustomInstance = FormElementInstance & {
 }
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    return <div className="text-red-500">{element.extraAttributes.label}</div>
+  const element = elementInstance as CustomInstance
+  const { label, required, placeholder, helperText } = element.extraAttributes
+
+  return (
+    <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 my-[0.2rem]">
+      <label className="text-gray-200 text-[1rem] tracking-wide">
+        {label}
+        {required && <span className="text-red-400 ml-1">*</span>}
+      </label>
+
+      <input
+        type="text"
+        disabled
+        readOnly
+        placeholder={placeholder}
+        className="
+          w-full
+          bg-[#1C1C1C]
+          text-gray-100
+          placeholder:text-gray-500
+          border border-gray-700
+          rounded-lg
+          px-3 py-2
+          focus:outline-none
+          focus:ring-1
+          focus:ring-gray-600
+          disabled:opacity-70
+          disabled:cursor-not-allowed
+        "
+      />
+
+      {helperText && (
+        <p className="text-xs text-gray-500 mt-1">
+          {helperText}
+        </p>
+      )}
+    </div>
+  )
 }

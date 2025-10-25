@@ -45,10 +45,10 @@ function Designer() {
             }}
         >
             {/* Left: Form Designer Area */}
-            <main className="flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
+            <main className="p-2 min-h-[100vh] flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
                 <div
                     ref={droppable.setNodeRef}
-                    className=" w-[70%] h-[80%] border-2 border-dashed border-gray-700 rounded-2xl  text-gray-400 text-base font-medium  relative flex flex-col items-center justify-start bg-gray-950/40 transition-colors duration-300"
+                    className="p-4 w-[80%] h-[100%] border-2 border-dashed border-gray-700 rounded-2xl  text-gray-400 text-base font-medium  relative flex flex-col items-center justify-start bg-gray-950/40 transition-colors duration-300"
                 >
                     {/* Center message */}
                     {!droppable.isOver && elements.length === 0 && (

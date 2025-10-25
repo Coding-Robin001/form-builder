@@ -22,7 +22,7 @@ interface DesignerProps {
 const DesignerSideBar: React.FC<DesignerProps> = ({ onElementSelect }) => {
 
   return (
-    <aside className="w-72 border-l border-gray-800 p-5 bg-gray-950/70 overflow-y-auto">
+    <aside className="w-85 border border-red-800 p-5 bg-gray-950/70 overflow-y-auto">
       <div className="grid grid-cols-2 gap-3">
         <SideBarBtnElement formElement={FormElements.TextField} />
         <SideBarBtnElement formElement={FormElements.TextField} />

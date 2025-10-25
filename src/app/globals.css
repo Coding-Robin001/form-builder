@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -40,4 +40,4 @@ body {
 
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
-}
+} */
