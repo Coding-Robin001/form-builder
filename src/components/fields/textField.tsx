@@ -31,7 +31,7 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     const { label, required, placeholder, helperText } = element.extraAttributes
 
     return (
-        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 my-[0.2rem]">
+        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 ">
             <label className="text-gray-200 text-[1rem] tracking-wide">
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
