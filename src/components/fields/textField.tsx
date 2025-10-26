@@ -42,7 +42,7 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
                 disabled
                 readOnly
                 placeholder={placeholder}
-                className="w-full bg-[#1C1C1C] text-gray-100 placeholder:text-gray-500 border border-gray-700 rounded-lg px-3 py-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-[#1C1C1C] text-gray-100 placeholder:text-gray-500 border border-gray-800 rounded-lg px-3 py-2 disabled:opacity-80 disabled:cursor-not-allowed"
             />
 
             {helperText && (

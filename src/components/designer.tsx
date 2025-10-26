@@ -3,13 +3,11 @@ import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core'
 import UseDesigner from './hooks/useDesigner'
 import { ElementsType, FormElementInstance, FormElements } from './formElements'
 import { idGenerator } from '@/lib/idGenerator'
-import { useState } from 'react'
-import { DeleteIcon, LucideTrash, Trash2Icon } from 'lucide-react'
+import DesignerElementWrapper from './designElementWrapper'
 
 function Designer() {
 
     const { elements, addElement } = UseDesigner()
-
 
     const droppable = useDroppable({
         id: "designer-drop-area",
@@ -85,68 +83,5 @@ function Designer() {
 }
 
 
-function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-
-    const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
-
-    const topHalf = useDroppable({
-        id: element.id + "-top",
-        data: {
-            type: element.type,
-            elementId: element.id,
-            isTopHalfDesignerElement: true,
-        }
-    })
-
-    const bottomHalf = useDroppable({
-        id: element.id + "-bottom",
-        data: {
-            type: element.type,
-            elementId: element.id,
-            isBottomHalfDesignerElement: true,
-        }
-    })
-
-    const DesignerElement = FormElements[element.type].designerComponent
-
-    return (
-        <div
-            onMouseEnter={() => {
-                setMouseIsOver(true)
-            }}
-            onMouseLeave={() => {
-                setMouseIsOver(false)
-            }}
-            className='w-full relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset my-[0.2rem]'
-        >
-
-            {/* top droppable zone */}
-            <div ref={topHalf.setNodeRef} className='absolute  w-full h-1/2 rounded-t'></div>
-
-            {/* bottom droppable zone */}
-            <div ref={bottomHalf.setNodeRef} className='absolute  w-full bottom-0 h-1/2 rounded-b'></div>
-
-            {
-                !mouseIsOver && (
-                    <>
-                        <div className="absolute right-0 top-0 h-full flex items-center justify-center">
-                            <button
-                                // onClick={() => removeElement(element.id)}
-                                className="flex items-center justify-center h-full px-2 border rounded-md rounded-l-none bg-red-500">
-                                <Trash2Icon className="h-6 w-6 text-white" />
-                            </button>
-                        </div>
-
-                        <div
-                            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 animate-pulse'>
-                            <p className='text-muted-foreground text-md'>Click for properties or drag to move</p>
-                        </div>
-                    </>
-                )
-            }
-            <DesignerElement elementInstance={element} />
-        </div>
-    )
-}
 
 export default Designer
