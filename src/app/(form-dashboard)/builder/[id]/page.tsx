@@ -4,7 +4,7 @@ import FormBuilder from "@/components/formBuilder";
 const FormBuilderPage = async ({ params }: { params: { id: string } }) => {
 
 
-    const { id } = params
+    const { id } = await params
 
     const form = await getFormByid(Number(id))
 
@@ -13,8 +13,8 @@ const FormBuilderPage = async ({ params }: { params: { id: string } }) => {
     }
 
     return <FormBuilder
-     form={form} 
-     />
+        form={form}
+    />
 };
 
 export default FormBuilderPage;

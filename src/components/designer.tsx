@@ -44,7 +44,7 @@ function Designer() {
             }}
         >
             {/* Left: Form Designer Area */}
-            <main className="p-2 min-h-[100vh] flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
+            <main className="p-2 flex-1 flex items-center justify-center bg-gray-950/60 border-r border-gray-800">
                 <div
                     ref={droppable.setNodeRef}
                     className="p-4 w-[80%] h-[100%] border-2 border-dashed border-gray-700 rounded-2xl  text-gray-400 text-base font-medium  relative flex flex-col items-center justify-start bg-gray-950/40 transition-colors duration-300"
@@ -57,7 +57,7 @@ function Designer() {
                     )}
 
                     {/* Drop highlight area */}
-                    {droppable.isOver && (
+                    {droppable.isOver && elements.length === 0 && (
                         <div
                             className="absolute top-0 left-0 w-full h-[120px] bg-gray-800/70 border-b border-gray-700 flex items-center justify-center text-gray-200 font-semibold tracking-wide backdrop-blur-sm transition-all duration-200 "
                         >

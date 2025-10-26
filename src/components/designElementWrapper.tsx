@@ -28,6 +28,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
     const DesignerElement = FormElements[element.type].designerComponent
 
+    if (draggable.isDragging) return null
     return (
         <div
             ref={draggable.setNodeRef}
@@ -48,7 +49,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             {mouseIsOver && (
                 <>
                     {/* Dark blur overlay */}
-                    <div className="absolute inset-0 bg-black/50  z-40 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-black/60  z-40 transition-opacity duration-300" />
 
                     {/* Trash button (always above overlay) */}
                     <div className="absolute right-0 top-0 h-full flex items-center justify-center z-50">
@@ -69,7 +70,22 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                 </>
             )}
 
-            <DesignerElement elementInstance={element} />
+            {
+                topHalfDroppableZone.isOver && (
+                    <div className="bg-white absolute top-0 w-full rounded-md h-[7px] rounded-b-none"></div>
+                )
+            }
+
+             {
+                bottomHalfDroppableZone.isOver && (
+                    <div className="bg-white absolute bottom-0 w-full rounded-md h-[7px] rounded-t-none"></div>
+                )
+            }
+
+
+            <div className={`${mouseIsOver && 'opacity-40'} `}>
+                <DesignerElement elementInstance={element} />
+            </div>
 
         </div>
     )
