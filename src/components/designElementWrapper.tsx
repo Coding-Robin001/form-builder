@@ -21,15 +21,18 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
         data: { type: element.type, elementId: element.id, isBottomHalfDesignerElement: true, }
     })
 
-    // const draggable = useDraggable({
-    //     id: element.id + "-drag-handler",
-    //     data: { type: element.type, elementId: element.id, isDesignerElement: true }
-    // })
+    const draggable = useDraggable({
+        id: element.id + "-drag-handler",
+        data: { type: element.type, elementId: element.id, isDesignerElement: true }
+    })
 
     const DesignerElement = FormElements[element.type].designerComponent
 
     return (
         <div
+            ref={draggable.setNodeRef}
+            {...draggable.listeners}
+            {...draggable.attributes}
             onMouseEnter={() => { setMouseIsOver(true) }}
             onMouseLeave={() => { setMouseIsOver(false) }}
             className='w-full relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset my-[0.2rem]'
