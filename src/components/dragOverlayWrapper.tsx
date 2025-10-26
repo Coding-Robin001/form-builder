@@ -42,11 +42,9 @@ function DragOverlayWrapper() {
             const DesignerElementComponent = FormElements[element.type].designerComponent
 
             node =
-               <div className="bg-[rgba(239,68,68,0.25)] rounded-md backdrop-blur-sm">
-                        <DesignerElementComponent elementInstance={element} />
-                    </div>
-
-
+                <div className="bg-[rgba(239,68,68,0.25)] rounded-md backdrop-blur-sm">
+                    <DesignerElementComponent elementInstance={element} />
+                </div>
         }
     }
 

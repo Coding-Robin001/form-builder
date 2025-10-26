@@ -5,13 +5,20 @@ import PreviewDialogBtn from "./previewDialogBtn";
 import SaveFormBtn from "./saveFormBtn";
 import PublishFormBtn from "./publishFormBtn";
 import Designer from "./designer";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./dragOverlayWrapper";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
+
+    const mouseSensor = useSensor(MouseSensor, {
+        activationConstraint: {
+            distance: 10
+        }
+    })
+    const sensors = useSensors(mouseSensor)
     return (
-        <DndContext>
+        <DndContext sensors={sensors}>
             <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
                 {/* Top Bar */}
                 <nav className="flex items-center justify-between px-6 py-3 border-b border-gray-800 bg-gray-950/70 backdrop-blur-sm">

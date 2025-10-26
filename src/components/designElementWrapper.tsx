@@ -82,7 +82,6 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                 )
             }
 
-
             <div className={`${mouseIsOver && 'opacity-40'} `}>
                 <DesignerElement elementInstance={element} />
             </div>
