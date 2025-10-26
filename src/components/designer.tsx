@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import DesignerSideBar from './designerSideBar'
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core'
 import UseDesigner from './hooks/useDesigner'
@@ -76,7 +75,6 @@ function Designer() {
                 </div>
             </main>
 
-
             {/* Right: Form Designer SideBar */}
             <DesignerSideBar />
 
@@ -85,12 +83,40 @@ function Designer() {
 }
 
 
-
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
+
+    const topHalf = useDroppable({
+        id: element.id + "-top",
+        data: {
+            type: element.type,
+            elementId: element.id,
+            isTopHalfDesignerElement: true,
+        }
+    })
+
+    const bottomHalf = useDroppable({
+        id: element.id + "-bottom",
+        data: {
+            type: element.type,
+            elementId: element.id,
+            isBottomHalfDesignerElement: true,
+        }
+    })
+
     const DesignerElement = FormElements[element.type].designerComponent
-    return <DesignerElement elementInstance={element} />
+
+    return (
+        <div className='w-full relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset'>
+
+            {/* top droppable zone */}
+            <div ref={topHalf.setNodeRef} className='absolute bg-green-500 w-full h-1/2 rounded-t'></div>
+
+            {/* bottom droppable zone */}
+            <div ref={bottomHalf.setNodeRef} className='absolute bg-red-500 w-full bottom-0 h-1/2 rounded-b'></div>
+
+            <DesignerElement elementInstance={element} />
+        </div>
+    )
 }
-
-
 
 export default Designer

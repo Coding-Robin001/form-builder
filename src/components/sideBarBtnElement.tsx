@@ -1,4 +1,3 @@
-import React from "react";
 import { FormElement } from "./formElements";
 import { useDraggable } from "@dnd-kit/core";
 
