@@ -26,9 +26,11 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
         data: { type: element.type, elementId: element.id, isDesignerElement: true }
     })
 
+    if (draggable.isDragging) return null
+
+    console.log("selcted element", element)
     const DesignerElement = FormElements[element.type].designerComponent
 
-    if (draggable.isDragging) return null
     return (
         <div
             ref={draggable.setNodeRef}
@@ -38,7 +40,6 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             onMouseLeave={() => { setMouseIsOver(false) }}
             onClick={(e) => {
                 e.stopPropagation()
-                console.log("selcted element", element)
                 setSelectedElement(element)
             }}
             className='w-full relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset my-[0.2rem]'
