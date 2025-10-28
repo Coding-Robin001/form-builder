@@ -25,7 +25,7 @@ function Designer() {
             if (isDesignerBtnElement) {
                 const type = active?.data?.current?.type
                 const newElement = FormElements[type as ElementsType].construct(idGenerator())
-                addElement(0, newElement)
+                addElement(elements.length, newElement)
             }
             console.log("drag end event ", event)
         }
