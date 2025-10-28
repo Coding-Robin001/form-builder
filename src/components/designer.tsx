@@ -1,7 +1,7 @@
 import DesignerSideBar from './designerSideBar'
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core'
 import UseDesigner from './hooks/useDesigner'
-import { ElementsType, FormElementInstance, FormElements } from './formElements'
+import { ElementsType, FormElements } from './formElements'
 import { idGenerator } from '@/lib/idGenerator'
 import DesignerElementWrapper from './designElementWrapper'
 

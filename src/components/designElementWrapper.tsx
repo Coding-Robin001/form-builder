@@ -7,7 +7,7 @@ import { Trash2Icon } from "lucide-react"
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
-    const { removeElement } = UseDesigner()
+    const { removeElement, selectedElement, setSelectedElement } = UseDesigner()
 
     const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
 
@@ -36,6 +36,11 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             {...draggable.attributes}
             onMouseEnter={() => { setMouseIsOver(true) }}
             onMouseLeave={() => { setMouseIsOver(false) }}
+            onClick={(e) => {
+                e.stopPropagation()
+                console.log("selcted element", element)
+                setSelectedElement(element)
+            }}
             className='w-full relative flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset my-[0.2rem]'
         >
 
@@ -54,7 +59,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                     {/* Trash button (always above overlay) */}
                     <div className="absolute right-0 top-0 h-full flex items-center justify-center z-50">
                         <button
-                            onClick={() => removeElement(element.id)}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                removeElement(element.id)
+                            }}
                             className="cursor-pointer flex items-center justify-center h-full px-2 border rounded-md rounded-l-none bg-red-500 hover:bg-red-600 transition"
                         >
                             <Trash2Icon className="h-6 w-6 text-white" />
@@ -76,7 +84,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                 )
             }
 
-             {
+            {
                 bottomHalfDroppableZone.isOver && (
                     <div className="bg-white absolute bottom-0 w-full rounded-md h-[7px] rounded-t-none"></div>
                 )
