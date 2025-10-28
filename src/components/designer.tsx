@@ -22,10 +22,15 @@ function Designer() {
             if (!active || !over) return
 
             const isDesignerBtnElement = active?.data?.current?.isDesignerBtnElement
-            if (isDesignerBtnElement) {
+            const isDroppingOverDesignerDropArea = over?.data?.current?.isDesignerDropArea
+
+            const isDroppingSidebarElementOverDesignerDropArea = isDesignerBtnElement && isDroppingOverDesignerDropArea
+
+            if (isDroppingSidebarElementOverDesignerDropArea) {
                 const type = active?.data?.current?.type
                 const newElement = FormElements[type as ElementsType].construct(idGenerator())
                 addElement(elements.length, newElement)
+                return
             }
             console.log("drag end event ", event)
         }
