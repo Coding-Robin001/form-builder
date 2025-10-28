@@ -27,7 +27,7 @@ const DesignerSideBar: React.FC<DesignerProps> = ({ onElementSelect }) => {
   const { selectedElement } = UseDesigner()
 
   return (
-    <aside className="w-85 border border-red-800 p-5 bg-gray-950/70 overflow-y-auto">
+    <aside className="w-85 border border-red-800 p-4 bg-gray-950/70 overflow-y-auto">
       {!selectedElement && <FormElementsSidebar />}
       {selectedElement && <PropertiesFormSidebar />}
     </aside>
