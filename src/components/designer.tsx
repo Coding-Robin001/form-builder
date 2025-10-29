@@ -24,15 +24,47 @@ function Designer() {
             const isDesignerBtnElement = active?.data?.current?.isDesignerBtnElement
             const isDroppingOverDesignerDropArea = over?.data?.current?.isDesignerDropArea
 
-            const isDroppingSidebarElementOverDesignerDropArea = isDesignerBtnElement && isDroppingOverDesignerDropArea
+            const isDroppingSidebarBtnElementOverDesignerDropArea = isDesignerBtnElement && isDroppingOverDesignerDropArea
 
-            if (isDroppingSidebarElementOverDesignerDropArea) {
+            // first droppable scenario
+            if (isDroppingSidebarBtnElementOverDesignerDropArea) {
                 const type = active?.data?.current?.type
                 const newElement = FormElements[type as ElementsType].construct(idGenerator())
                 addElement(elements.length, newElement)
                 return
             }
+
+            const isDroppingOverDesignerElementTopHalf = over?.data?.current?.isTopHalfDesignerElement
+            const isDroppingOverDesignerElementBottomHalf = over?.data?.current?.isBottomHalfDesignerElement
+
+            const isDroppingOverDesignerElement = isDroppingOverDesignerElementTopHalf || isDroppingOverDesignerElementBottomHalf
+
+            const droppingSideBarBtnOverDesignerElement = isDesignerBtnElement && isDroppingOverDesignerElement
+
+
+            // second droppable scenario
+            if (droppingSideBarBtnOverDesignerElement) {
+                const type = active?.data?.current?.type
+                const newElement = FormElements[type as ElementsType].construct(idGenerator())
+
+                const overId = over?.data?.current?.elementId
+
+                const overElementIndex = elements.findIndex((el) => el.id === overId)
+                if (overElementIndex === -1) {
+                    throw new Error("element not found!")
+                }
+
+                let indexForNewElement = overElementIndex //assume im on op half
+                if (isDroppingOverDesignerElementBottomHalf) {
+                    indexForNewElement = overElementIndex + 1
+                }
+
+                addElement(indexForNewElement, newElement)
+                return
+            }
+
             console.log("drag end event ", event)
+
         }
     })
 
