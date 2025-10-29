@@ -117,7 +117,7 @@ function Designer() {
                 <div
                     ref={droppable.setNodeRef}
                     className={`relative flex flex-col items-center justify-start w-[85%] min-h-[100vh] p-6 border-3 border-gray-700 rounded-md bg-gray-950/60 text-gray-300 font-medium transition-all duration-300 ease-in-out
-    ${droppable.isOver ? 'ring-2 ring-inset border-blue-500 bg-gray-900/80 shadow-[0_0_25px_5px_rgba(59,130,246,0.25)] scale-[1.01]' : 'hover:border-gray-600'} `}
+    ${droppable.isOver ? 'ring-2 ring-inset border-green-500 bg-gray-900/80 shadow-[0_0_25px_5px_rgba(59,130,246,0.25)] scale-[1.01]' : 'hover:border-gray-600'} `}
                 >
 
                     {/* Center message */}
