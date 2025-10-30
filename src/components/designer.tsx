@@ -41,7 +41,6 @@ function Designer() {
 
             const droppingSideBarBtnOverDesignerElement = isDesignerBtnElement && isDroppingOverDesignerElement
 
-
             // 2nd droppable scenario (drag sidebarBtnElement and drop over designerelement in dropzone)
             if (droppingSideBarBtnOverDesignerElement) {
                 const type = active?.data?.current?.type
@@ -62,7 +61,6 @@ function Designer() {
                 addElement(indexForNewElement, newElement)
                 return
             }
-
 
             // 3rd scenario (drag a designerElement within dropzone over another designerelement changing postions)
             const isDraggingDesignerElement = active?.data?.current?.isDesignerElement
@@ -91,7 +89,6 @@ function Designer() {
 
             }
             console.log("drag end event ", event)
-
         }
     })
 
@@ -122,7 +119,7 @@ function Designer() {
 
                     {/* Center message */}
                     {!droppable.isOver && elements.length === 0 && (
-                        <p className="absolute inset-0 flex items-center justify-center text-gray-500 font-semibold tracking-wide">
+                        <p className="absolute z-20  flex items-center justify-center text-gray-500 font-semibold tracking-wide">
                             Drop your form elements here
                         </p>
                     )}

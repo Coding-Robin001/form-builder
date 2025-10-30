@@ -45,3 +45,7 @@ body {
 .color{
   background-color: #111331;
 }
+/* 
+html, body, #root {
+  height: 100%;
+} */

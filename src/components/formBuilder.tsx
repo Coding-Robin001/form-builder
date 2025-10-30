@@ -7,9 +7,13 @@ import PublishFormBtn from "./publishFormBtn";
 import Designer from "./designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./dragOverlayWrapper";
+import { useState } from "react";
+import PreviewDialog from "./previewDialog";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
+
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
@@ -25,7 +29,7 @@ export default function FormBuilder({ form }: { form: Form }) {
     })
 
     const sensors = useSensors(mouseSensor, touchSensor)
-    
+
     return (
         <DndContext sensors={sensors}>
             <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
@@ -36,7 +40,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <PreviewDialogBtn />
+                        <PreviewDialogBtn onOpen={() => setIsPreviewOpen(true)} />
                         {
                             !form.published && (
                                 <>
@@ -55,6 +59,11 @@ export default function FormBuilder({ form }: { form: Form }) {
                 <footer className="border-t border-gray-800 bg-gray-950/70 py-3 text-center text-xs text-gray-500">
                     Designed with 💚 by FormBuilder — ID: {form.id}
                 </footer>
+
+                {/* Preview Dialog — OUTSIDE Designer, INSIDE App */}
+                {isPreviewOpen && <PreviewDialog onClose={() => setIsPreviewOpen(false)} />}
+
+
             </div>
             <DragOverlayWrapper />
         </DndContext>
