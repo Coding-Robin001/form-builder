@@ -3,7 +3,7 @@
 import React from "react";
 import { Eye } from "lucide-react";
 
-export default function PreviewDialogBtn({ onOpen }: { onOpen: () => void }) {
+export default function PreviewFormBtn({ onOpen }: { onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}

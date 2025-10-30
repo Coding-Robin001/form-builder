@@ -1,14 +1,14 @@
 "use client";
 
 import { Form } from "@prisma/client"
-import PreviewDialogBtn from "./previewDialogBtn";
 import SaveFormBtn from "./saveFormBtn";
 import PublishFormBtn from "./publishFormBtn";
 import Designer from "./designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./dragOverlayWrapper";
 import { useState } from "react";
-import PreviewDialog from "./previewDialog";
+import PreviewFormPopup from "./previewFormPopup";
+import PreviewFormBtn from "./previewFormBtn";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
@@ -40,7 +40,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <PreviewDialogBtn onOpen={() => setIsPreviewOpen(true)} />
+                        <PreviewFormBtn onOpen={() => setIsPreviewOpen(true)} />
                         {
                             !form.published && (
                                 <>
@@ -61,7 +61,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                 </footer>
 
                 {/* Preview Dialog — OUTSIDE Designer, INSIDE App */}
-                {isPreviewOpen && <PreviewDialog onClose={() => setIsPreviewOpen(false)} />}
+                {isPreviewOpen && <PreviewFormPopup onClose={() => setIsPreviewOpen(false)} />}
 
 
             </div>
