@@ -19,7 +19,7 @@ export const TextFieldFormElement: FormElement = {
     construct: (id: string) => ({ id, type, extraAttributes, }),
     designerBtnElement: { icon: ListChecks, label: "text field" },
     designerComponent: DesignerComponent,
-    formComponent: () => <div>form component</div>,
+    formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
 }
 
@@ -27,6 +27,63 @@ type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
+
+function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+    const element = elementInstance as CustomInstance
+    const { label, required, placeholder, helperText } = element.extraAttributes
+
+    return (
+        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 rounded-lg">
+            <label className="text-gray-200 text-[1.4rem] tracking-wide">
+                {label}
+                {required && <span className="text-red-400 ml-1">*</span>}
+            </label>
+
+            <input
+                type="text"
+                placeholder={placeholder}
+                className="w-full bg-gray-900/60 text-gray-100 placeholder:text-gray-500 
+               border border-gray-700 rounded-lg px-3 py-2 
+               focus:outline-none focus:ring-2 focus:ring-gray-100/50 
+               shadow-inner transition-all duration-200"
+            />
+
+            {helperText && (
+                <p className="text-md text-gray-300 mt-1">{helperText}</p>
+            )}
+        </div>
+
+    )
+}
+
+function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+    const element = elementInstance as CustomInstance
+    const { label, required, placeholder, helperText } = element.extraAttributes
+
+    return (
+        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 border border-gray-600/60">
+            <label className="text-gray-100 text-[1.45rem] tracking-wide">
+                {label}
+                {required && <span className="text-red-400 ml-1">*</span>}
+            </label>
+            <input
+                type="text"
+                disabled
+                readOnly
+                placeholder={placeholder}
+                className="w-full bg-gray-800/50 text-gray-400 placeholder:text-gray-400 
+             border border-gray-700/50 rounded-lg px-3 py-2 
+             shadow-inner opacity-90 cursor-not-allowed 
+             focus:outline-none focus:ring-0 
+             transition-all duration-200"
+            />
+
+            {helperText && (
+                <p className="text-md text-gray-300 mt-1"> {helperText} </p>
+            )}
+        </div>
+    )
+}
 
 function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const { updateElement } = UseDesigner()
@@ -183,28 +240,3 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
 }
 
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes
-
-    return (
-        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 ">
-            <label className="text-gray-200 text-[1.3rem] tracking-wide">
-                {label}
-                {required && <span className="text-red-400 ml-1">*</span>}
-            </label>
-
-            <input
-                type="text"
-                disabled
-                readOnly
-                placeholder={placeholder}
-                className="w-full bg-[#1C1C1C] text-gray-100 placeholder:text-gray-500 border border-gray-800 rounded-lg px-3 py-2 disabled:opacity-80 disabled:cursor-not-allowed"
-            />
-
-            {helperText && (
-                <p className="text-sm text-gray-500 mt-1"> {helperText} </p>
-            )}
-        </div>
-    )
-}

@@ -61,7 +61,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                 </footer>
 
                 {/* Preview Dialog — OUTSIDE Designer, INSIDE App */}
-                {isPreviewOpen && <PreviewFormPopup onClose={() => setIsPreviewOpen(false)} />}
+                {isPreviewOpen && <PreviewFormPopup formName={form.name} onClose={() => setIsPreviewOpen(false)} />}
 
 
             </div>
