@@ -25,7 +25,7 @@ export default function PreviewFormPopup({ onClose, formName }: { onClose: () =>
             <h2 className="text-[1.6rem]">{formName.toLocaleUpperCase()}</h2>
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="border-2 flex flex-col gap-2 p-4 w-[650px] min-h-[500px]  border-gray-500 rounded-lg shadow-[0_0_25px_4px_rgba(34,197,94,0.2)] bg-black/60 bg-opacity-50"
+                className="border-2 flex flex-col gap-2 p-4 w-[650px]  border-gray-500 rounded-lg shadow-[0_0_25px_4px_rgba(34,197,94,0.2)] bg-black/60 bg-opacity-50"
             >
                 {
 

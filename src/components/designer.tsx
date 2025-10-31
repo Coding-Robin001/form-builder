@@ -4,6 +4,7 @@ import UseDesigner from './hooks/useDesigner'
 import { ElementsType, FormElements } from './formElements'
 import { idGenerator } from '@/lib/idGenerator'
 import DesignerElementWrapper from './designElementWrapper'
+import { GripHorizontal, GripVertical, Hand, MousePointer, Move } from 'lucide-react'
 
 function Designer() {
 
@@ -113,16 +114,24 @@ function Designer() {
             >
                 <div
                     ref={droppable.setNodeRef}
-                    className={`relative flex flex-col items-center justify-start w-[85%] min-h-[100vh] p-6 border-3 border-gray-700 rounded-md bg-gray-950/60 text-gray-300 font-medium transition-all duration-300 ease-in-out
-    ${droppable.isOver ? 'ring-2 ring-inset border-green-500 bg-gray-900/80 shadow-[0_0_25px_5px_rgba(59,130,246,0.25)] scale-[1.01]' : 'hover:border-gray-600'} `}
+                    className={`relative flex flex-col items-center justify-start w-[85%] min-h-[100vh] p-6 
+    rounded-xl border-4 border-gray-700/70 bg-gray-950/60 text-gray-300 font-medium 
+    transition-all duration-300 ease-in-out 
+    shadow-[0_0_15px_2px_rgba(16,185,129,0.25)]
+    ${droppable.isOver
+                            ? ' shadow-[0_0_25px_6px_rgba(16,185,129,0.4)] ring-4 ring-emerald-400/50'
+                            : 'hover:border-emerald-500/40 hover:shadow-[0_0_18px_4px_rgba(16,185,129,0.3)]'
+                        }`}
                 >
 
                     {/* Center message */}
-                    {!droppable.isOver && elements.length === 0 && (
-                        <p className="absolute z-20  flex items-center justify-center text-gray-500 font-semibold tracking-wide">
-                            Drop your form elements here
-                        </p>
-                    )}
+                  {!droppable.isOver && elements.length === 0 && (
+  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-gray-500 font-semibold tracking-wide text-[1.3rem]">
+    <p>Drop your form elements here</p>
+    <Hand className="w-8 h-8 mt-3 text-gray-500 cursor-grab active:cursor-grabbing" />
+  </div>
+)}
+
 
                     {/* Drop highlight area */}
                     {droppable.isOver && elements.length === 0 && (
