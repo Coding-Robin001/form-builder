@@ -35,14 +35,21 @@ export default function FormBuilder({ form }: { form: Form }) {
     const sensors = useSensors(mouseSensor, touchSensor)
 
     useEffect(() => {
+        if (isReady) return
         const elements = JSON.parse(form.content)
         setElements(elements)
-    setIsReady(true)
+        const readyTimeout = setTimeout(() => setIsReady(true), 500);
+        return () => clearTimeout(readyTimeout)
     }, [form, setElements])
 
     if (!isReady) {
-        <div className="flex flex-col items-center justify-center w-full h-full"><LoadingSpinner /></div>
+        return (
+            <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center">
+                <LoadingSpinner />
+            </div>
+        );
     }
+
 
     return (
         <DndContext sensors={sensors}>
