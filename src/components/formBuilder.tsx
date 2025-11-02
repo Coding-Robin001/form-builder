@@ -9,11 +9,13 @@ import DragOverlayWrapper from "./dragOverlayWrapper";
 import { useEffect, useState } from "react";
 import PreviewFormPopup from "./previewFormPopup";
 import PreviewFormBtn from "./previewFormBtn";
+import UseDesigner from "./hooks/useDesigner";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
 
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const { setElements } = UseDesigner()
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
@@ -31,8 +33,9 @@ export default function FormBuilder({ form }: { form: Form }) {
     const sensors = useSensors(mouseSensor, touchSensor)
 
     useEffect(() => {
-
-    }, [form])
+        const elements = JSON.parse(form.content)
+        setElements(elements)
+    }, [form, setElements])
 
     return (
         <DndContext sensors={sensors}>
