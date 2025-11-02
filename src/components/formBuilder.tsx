@@ -52,6 +52,13 @@ export default function FormBuilder({ form }: { form: Form }) {
         );
     }
 
+    if (form.published) {
+        return (
+            <>
+            </>
+        )
+    }
+
 
     return (
         <DndContext sensors={sensors}>

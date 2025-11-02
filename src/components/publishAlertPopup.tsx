@@ -1,8 +1,28 @@
 "use client";
-import React from "react";
-import { X } from "lucide-react";
+import React, { useState, useTransition } from "react";
+import { Loader2, Rocket, X } from "lucide-react";
+import Toast from "./toast";
+import { publishForm } from "@/actions/form";
+import { useRouter } from "next/navigation";
 
 export default function PublishAlertPopup({ onClose, formName, id }: { onClose: () => void; formName: string; id: number }) {
+    const router = useRouter()
+
+    const [loading, startTransition] = useTransition()
+    const [toast, setToast] = useState<{ message: string; type?: "success" | "error"; } | null>(null);
+
+    const publishFormHandler = async () => {
+        try {
+            await publishForm(id)
+            setToast({ message: "your orm is now available to the public for submission!", type: "success" });
+            setTimeout(() => {
+                onClose();           // Close the popup
+                router.refresh();    // Refresh the page to show updated data
+            }, 2000);
+        } catch (error) {
+            setToast({ message: "Something went wrong.", type: "error" });
+        }
+    }
 
     return (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm">
@@ -39,13 +59,32 @@ export default function PublishAlertPopup({ onClose, formName, id }: { onClose: 
                     >
                         Cancel
                     </button>
+
                     <button
-                        className="cursor-pointer px-4 py-1.5 text-sm font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-black shadow-md shadow-emerald-500/30 transition"
+                        disabled={loading}
+                        onClick={() => startTransition(publishFormHandler)}
+                        className="flex items-center gap-2 px-4 py-1.5 text-sm font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-black shadow-md shadow-emerald-500/30 transition disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        Proceed
+                        {loading ? (
+                            <Loader2 className="w-4 h-4 animate-spin text-black" />
+                        ) : (
+                            <Rocket className="w-4 h-4" />
+                        )}
+                        <span>{loading ? "Publishing..." : "Proceed"}</span>
                     </button>
+
                 </div>
             </div>
+            {
+                toast && (
+                    <Toast
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() => setToast(null)}
+                    />
+                )
+            }
         </div>
+
     );
 }
