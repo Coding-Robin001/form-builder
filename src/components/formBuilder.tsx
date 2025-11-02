@@ -44,7 +44,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                         {
                             !form.published && (
                                 <>
-                                    <SaveFormBtn />
+                                    <SaveFormBtn id={form.id} />
                                     <PublishFormBtn />
                                 </>
                             )
