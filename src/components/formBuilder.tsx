@@ -12,6 +12,8 @@ import PreviewFormBtn from "./previewFormBtn";
 import UseDesigner from "./hooks/useDesigner";
 import LoadingSpinner from "./loadingSpinner";
 import PublishAlertPopup from "./publishAlertPopup";
+import { CheckCircle2, Share2, Home, FileText, Copy } from "lucide-react";
+import Link from "next/link";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
@@ -20,6 +22,7 @@ export default function FormBuilder({ form }: { form: Form }) {
     const [isPublishOpen, setIsPublishOpen] = useState(false);
     const { setElements } = UseDesigner()
     const [isReady, setIsReady] = useState(false)
+    const [copied, setCopied] = useState(false);
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
@@ -44,6 +47,12 @@ export default function FormBuilder({ form }: { form: Form }) {
         return () => clearTimeout(readyTimeout)
     }, [form, setElements])
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText("");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     if (!isReady) {
         return (
             <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center">
@@ -52,9 +61,54 @@ export default function FormBuilder({ form }: { form: Form }) {
         );
     }
 
+    const formLink = `${window.location.origin}/submit/${form.shareURL}`
+
     if (form.published) {
         return (
             <>
+                <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex flex-col items-center justify-center text-white p-6">
+                    <div className="w-full max-w-md bg-gray-900/60 rounded-2xl shadow-[0_0_25px_5px_rgba(16,185,129,0.15)] backdrop-blur-lg border border-gray-800 p-8 text-center space-y-6">
+                        <div className="flex flex-col items-center gap-4">
+                            <CheckCircle2 className="w-17 h-17 text-emerald-400" />
+                            <h1 className="text-3xl font-bold tracking-wide">Form Published</h1>
+                            <p className="text-gray-400 text-md">
+                                Your form is live! Share link with users to let them view and submit.
+                            </p>
+                        </div>
+
+                        <div className="bg-gray-800/70 border border-gray-700 rounded-lg p-3 flex items-center justify-between">
+                            <span className="text-gray-300 text-sm truncate">{formLink}</span>
+                            <button
+                                onClick={handleCopy}
+                                className="cursor-pointer ml-2 px-3 py-1.5 text-sm bg-emerald-600 hover:bg-emerald-500 rounded-md text-black font-semibold transition"
+                            >
+                                {copied ? "Copied!" : "Copy"}
+                            </button>
+                        </div>
+
+                        <div className="flex justify-between text-sm text-gray-400">
+                            <Link
+                                href="/"
+                                className="flex items-center gap-1 hover:text-emerald-400 transition"
+                            >
+                                <Home className="w-4 h-4" />
+                                Go back home
+                            </Link>
+                            <Link
+                                href={`/forms/ ${form.id}`}
+                            className="flex items-center gap-1 hover:text-emerald-400 transition"
+                            >
+                            Form details
+                            <FileText className="w-4 h-4" />
+                        </Link>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-2 text-gray-400 pt-3 border-t border-gray-800 text-sm">
+                        <Share2 className="w-4 h-4" />
+                        Share this form with others
+                    </div>
+                </div>
+            </div >
             </>
         )
     }
