@@ -6,7 +6,7 @@ import PublishFormBtn from "./publishFormBtn";
 import Designer from "./designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./dragOverlayWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PreviewFormPopup from "./previewFormPopup";
 import PreviewFormBtn from "./previewFormBtn";
 
@@ -29,6 +29,10 @@ export default function FormBuilder({ form }: { form: Form }) {
     })
 
     const sensors = useSensors(mouseSensor, touchSensor)
+
+    useEffect(() => {
+
+    }, [form])
 
     return (
         <DndContext sensors={sensors}>
