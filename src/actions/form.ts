@@ -136,3 +136,23 @@ export async function updateFormContent(id: number, jsonContent: string) {
         }
     })
 }
+
+export async function publishForm(id: number) {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    if (!session) {
+        throw new UserNotFoundErr()
+    }
+
+    return await prisma.form.update({
+        data: {
+            published: true
+        },
+        where: {
+            userId: session.user.id,
+            id
+        }
+    })
+}

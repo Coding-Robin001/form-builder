@@ -11,11 +11,13 @@ import PreviewFormPopup from "./previewFormPopup";
 import PreviewFormBtn from "./previewFormBtn";
 import UseDesigner from "./hooks/useDesigner";
 import LoadingSpinner from "./loadingSpinner";
+import PublishAlertPopup from "./publishAlertPopup";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
 
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [isPublishOpen, setIsPublishOpen] = useState(false);
     const { setElements } = UseDesigner()
     const [isReady, setIsReady] = useState(false)
 
@@ -66,7 +68,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                             !form.published && (
                                 <>
                                     <SaveFormBtn id={form.id} />
-                                    <PublishFormBtn />
+                                    <PublishFormBtn onOpen={() => setIsPublishOpen(true)} />
                                 </>
                             )
                         }
@@ -81,8 +83,22 @@ export default function FormBuilder({ form }: { form: Form }) {
                     Designed with 💚 by FormBuilder — ID: {form.id}
                 </footer>
 
-                {/* Preview Dialog — OUTSIDE Designer, INSIDE App */}
-                {isPreviewOpen && <PreviewFormPopup formName={form.name} onClose={() => setIsPreviewOpen(false)} />}
+                {/* Preview Dialog */}
+                {
+                    isPreviewOpen &&
+                    <PreviewFormPopup
+                        formName={form.name}
+                        onClose={() => setIsPreviewOpen(false)}
+                    />
+                }
+
+                {/* publish Dialog */}
+                {isPublishOpen &&
+                    <PublishAlertPopup
+                        id={form.id}
+                        formName={form.name}
+                        onClose={() => setIsPublishOpen(false)}
+                    />}
 
 
             </div>
