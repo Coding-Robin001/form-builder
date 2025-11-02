@@ -10,12 +10,14 @@ import { useEffect, useState } from "react";
 import PreviewFormPopup from "./previewFormPopup";
 import PreviewFormBtn from "./previewFormBtn";
 import UseDesigner from "./hooks/useDesigner";
+import LoadingSpinner from "./loadingSpinner";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
 
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const { setElements } = UseDesigner()
+    const [isReady, setIsReady] = useState(false)
 
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
@@ -35,7 +37,12 @@ export default function FormBuilder({ form }: { form: Form }) {
     useEffect(() => {
         const elements = JSON.parse(form.content)
         setElements(elements)
+    setIsReady(true)
     }, [form, setElements])
+
+    if (!isReady) {
+        <div className="flex flex-col items-center justify-center w-full h-full"><LoadingSpinner /></div>
+    }
 
     return (
         <DndContext sensors={sensors}>
