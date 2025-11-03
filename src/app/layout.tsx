@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import DesignerContextProvider from "@/components/context/designerContext";
+import NextTopLoader from "nextjs-toploader";
 
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
       >
+        <NextTopLoader />
         <DesignerContextProvider>
           <Navbar session={session} />
           <main>
