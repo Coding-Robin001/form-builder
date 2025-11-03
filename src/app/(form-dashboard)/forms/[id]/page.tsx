@@ -64,7 +64,6 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
     ] as const;
 
 
-
     return (
         <div className="min-h-screen bg-gradient-to-r from-black via-gray-900 to-black text-white p-8">
             {/* Header */}
@@ -128,7 +127,7 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
                 </div>
             </section>
         </div>
-    );
+    )
 }
 
 
