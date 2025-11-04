@@ -1,16 +1,18 @@
 
-import {  Share2, FileText, BarChart2, Percent, TrendingDown } from "lucide-react";
+import { Share2, FileText, BarChart2, Percent, TrendingDown } from "lucide-react";
 import { getFormByid } from "@/actions/form";
 import VisitBtn from "@/components/visitBtn";
 import ShareLinkBox from "@/components/sharelink";
 import StatCard from "@/components/statCard";
+import SubmissionsTable from "@/components/SubmissionsTable";
 
 
 const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
 
     const { id } = await params
+    const trimmedId = Number(id?.trim());
 
-    const form = await getFormByid(Number(id))
+    const form = await getFormByid(trimmedId)
 
     if (!form) {
         throw new Error("form not found!")
@@ -89,7 +91,7 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
             {/* Link Box */}
             <ShareLinkBox shareUrl={form.shareURL} />
 
-   
+
             {/* Stats Section */}
             <section className="max-w-7xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statsConfig.map((item) => (
@@ -110,21 +112,7 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
 
             {/* Submissions Section */}
             <section className="max-w-7xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6 text-emerald-300">Submissions</h2>
-
-                <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 text-gray-400 text-sm font-medium bg-gray-800/60 px-4 py-2 border-b border-gray-700">
-                        <span>TEXT FIELD</span>
-                        <span className="hidden sm:block">VALUE</span>
-                        <span className="text-right">SUBMITTED AT</span>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 px-4 py-3 text-gray-300 hover:bg-gray-800/50 transition">
-                        <span>Text submit</span>
-                        <span className="hidden sm:block truncate">Sample value here</span>
-                        <span className="text-right text-gray-400 text-sm">about 14 hours ago</span>
-                    </div>
-                </div>
+                <SubmissionsTable id={form.id} />
             </section>
         </div>
     )

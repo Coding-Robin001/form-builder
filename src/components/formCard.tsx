@@ -68,12 +68,13 @@ export const FormCard = ({ form }: { form: Form }) => {
             {
                 form.published ? (
                     <Link href={`/forms/${form.id}`} className="w-full">
-                        <button
-                            className="w-full border cursor-pointer border-gray-700 bg-gray-800 rounded-lg py-2 text-md font-medium flex items-center justify-center gap-2 hover:bg-blue-600 hover:border-blue-600 transition"
-                        >
-                            <Eye className="w-4 h-4" />
-                            View submissions
-                        </button>
+<button
+  className="w-full border cursor-pointer border-gray-700 bg-white text-gray-800 rounded-lg py-2 text-md font-medium flex items-center justify-center gap-2 
+  hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all duration-300"
+>
+  <Eye className="w-4 h-4" />
+  View submissions
+</button>
                     </Link>
                 ) : (
                     <Link href={`/builder/${form.id}`} className="w-full">

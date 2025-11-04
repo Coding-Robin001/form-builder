@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { Form } from "@prisma/client"
 import SaveFormBtn from "./saveFormBtn";
@@ -14,6 +14,7 @@ import LoadingSpinner from "./loadingSpinner";
 import PublishAlertPopup from "./publishAlertPopup";
 import { CheckCircle2, Share2, Home, FileText, Copy } from "lucide-react";
 import Link from "next/link";
+import ReactConfetti from "react-confetti";
 
 
 export default function FormBuilder({ form }: { form: Form }) {
@@ -58,14 +59,24 @@ export default function FormBuilder({ form }: { form: Form }) {
             <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center">
                 <LoadingSpinner />
             </div>
-        );
+        )
     }
 
     const formLink = `${window.location.origin}/submit/${form.shareURL}`
 
+    // screen after pubishing form
     if (form.published) {
         return (
-            <>
+            <div className="fixed inset-0 z-50 overflow-hidden">
+                <ReactConfetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    recycle={false}
+                    numberOfPieces={1000}
+                    style={{
+                        pointerEvents: "none",
+                    }}
+                />
                 <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex flex-col items-center justify-center text-white p-6">
                     <div className="w-full max-w-md bg-gray-900/60 rounded-2xl shadow-[0_0_25px_5px_rgba(16,185,129,0.15)] backdrop-blur-lg border border-gray-800 p-8 text-center space-y-6">
                         <div className="flex flex-col items-center gap-4">
@@ -96,20 +107,20 @@ export default function FormBuilder({ form }: { form: Form }) {
                             </Link>
                             <Link
                                 href={`/forms/ ${form.id}`}
-                            className="flex items-center gap-1 hover:text-emerald-400 transition"
+                                className="flex items-center gap-1 hover:text-emerald-400 transition"
                             >
-                            Form details
-                            <FileText className="w-4 h-4" />
-                        </Link>
-                    </div>
+                                Form details
+                                <FileText className="w-4 h-4" />
+                            </Link>
+                        </div>
 
-                    <div className="flex items-center justify-center gap-2 text-gray-400 pt-3 border-t border-gray-800 text-sm">
-                        <Share2 className="w-4 h-4" />
-                        Share this form with others
+                        <div className="flex items-center justify-center gap-2 text-gray-400 pt-3 border-t border-gray-800 text-sm">
+                            <Share2 className="w-4 h-4" />
+                            Share this form with others
+                        </div>
                     </div>
-                </div>
-            </div >
-            </>
+                </div >
+            </div>
         )
     }
 
@@ -141,8 +152,9 @@ export default function FormBuilder({ form }: { form: Form }) {
 
                 {/* Footer Info */}
                 <footer className="border-t border-gray-800 bg-gray-950/70 py-3 text-center text-xs text-gray-500">
-                    Designed with 💚 by FormBuilder — ID: {form.id}
+                    Design for {form.name}
                 </footer>
+
 
                 {/* Preview Dialog */}
                 {
@@ -160,7 +172,6 @@ export default function FormBuilder({ form }: { form: Form }) {
                         formName={form.name}
                         onClose={() => setIsPublishOpen(false)}
                     />}
-
 
             </div>
             <DragOverlayWrapper />

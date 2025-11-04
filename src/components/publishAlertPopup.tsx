@@ -1,4 +1,6 @@
-"use client";
+"use client"
+
+
 import React, { useState, useTransition } from "react";
 import { Loader2, Rocket, X } from "lucide-react";
 import Toast from "./toast";
@@ -14,11 +16,11 @@ export default function PublishAlertPopup({ onClose, formName, id }: { onClose: 
     const publishFormHandler = async () => {
         try {
             await publishForm(id)
-            setToast({ message: "your orm is now available to the public for submission!", type: "success" });
+            setToast({ message: "your form is now available to the public for submission!", type: "success" });
             setTimeout(() => {
                 onClose();           // Close the popup
                 router.refresh();    // Refresh the page to show updated data
-            }, 2000);
+            }, 2500);
         } catch (error) {
             setToast({ message: "Something went wrong.", type: "error" });
         }
@@ -75,6 +77,7 @@ export default function PublishAlertPopup({ onClose, formName, id }: { onClose: 
 
                 </div>
             </div>
+
             {
                 toast && (
                     <Toast
@@ -85,6 +88,5 @@ export default function PublishAlertPopup({ onClose, formName, id }: { onClose: 
                 )
             }
         </div>
-
     );
 }
