@@ -1,9 +1,10 @@
 "use client"
 
 import { ListChecks } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../formElements"
+import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
+import { useState } from "react"
 
 const type: ElementsType = "TextField"
 
@@ -28,8 +29,10 @@ type CustomInstance = FormElementInstance & {
 }
 
 
-function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+function FormComponent({ elementInstance, submitValue }: { elementInstance: FormElementInstance; submitValue: SubmitFunction }) {
     const element = elementInstance as CustomInstance
+
+    const [value, setValue] = useState("")
     const { label, required, placeholder, helperText } = element.extraAttributes
 
     return (
@@ -42,6 +45,12 @@ function FormComponent({ elementInstance }: { elementInstance: FormElementInstan
             <input
                 type="text"
                 placeholder={placeholder}
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={(e) => {
+                    if (!submitValue) return
+                    submitValue(element.id, e.target.value)
+                }}
+                value={value}
                 className="w-full bg-gray-900/60 text-gray-100 placeholder:text-gray-500 
                border border-gray-700 rounded-lg px-3 py-2 
                focus:outline-none focus:ring-2 focus:ring-gray-100/50 
