@@ -106,7 +106,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                                 Go back home
                             </Link>
                             <Link
-                                href={`/forms/ ${form.id}`}
+                                href={`/forms/${form.id}`}
                                 className="flex items-center gap-1 hover:text-emerald-400 transition"
                             >
                                 Form details

@@ -43,12 +43,13 @@ export default function CreateFormButton() {
         return;
       }
 
-      setIsOpen(false);
+
       setName("");
       setDescription("");
 
       setToast({ message: "Form created successfully!", type: "success" });
       router.push(`/builder/${result.form?.id}`)
+      setIsOpen(false);
 
     } catch (error: any) {
       setServerError("An unexpected error occurred.");

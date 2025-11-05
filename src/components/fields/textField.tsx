@@ -4,7 +4,7 @@ import { ListChecks } from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const type: ElementsType = "TextField"
 
@@ -22,6 +22,14 @@ export const TextFieldFormElement: FormElement = {
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
+
+    validate: (FormElement: FormElementInstance, currentValue: string): boolean => {
+        const element = FormElement as CustomInstance
+        if (element.extraAttributes.required) {
+            return currentValue.length > 0
+        }
+        return true
+    },
 }
 
 type CustomInstance = FormElementInstance & {
@@ -29,15 +37,32 @@ type CustomInstance = FormElementInstance & {
 }
 
 
-function FormComponent({ elementInstance, submitValue }: { elementInstance: FormElementInstance; submitValue: SubmitFunction }) {
+function FormComponent({
+    elementInstance,
+    submitValue,
+    isInvalid,
+    defaultValue
+}: {
+    elementInstance: FormElementInstance;
+    submitValue: SubmitFunction;
+    isInvalid?: boolean;
+    defaultValue?: string
+}) {
+
     const element = elementInstance as CustomInstance
 
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState(defaultValue || "")
+    const [error, setError] = useState(false)
+
+    useEffect(() => {
+        setError(isInvalid === true)
+    }, [isInvalid])
+
     const { label, required, placeholder, helperText } = element.extraAttributes
 
     return (
         <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 rounded-lg">
-            <label className="text-gray-200 text-[1.4rem] tracking-wide">
+            <label className={`${error && 'text-red-500'} text-gray-200 text-[1.4rem] tracking-wide`}>
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
@@ -48,17 +73,17 @@ function FormComponent({ elementInstance, submitValue }: { elementInstance: Form
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={(e) => {
                     if (!submitValue) return
+                    const valid = TextFieldFormElement.validate(element, e.target.value)
+                    setError(!valid)
+                    if (!valid) return
                     submitValue(element.id, e.target.value)
                 }}
                 value={value}
-                className="w-full bg-gray-900/60 text-gray-100 placeholder:text-gray-500 
-               border border-gray-700 rounded-lg px-3 py-2 
-               focus:outline-none focus:ring-2 focus:ring-gray-100/50 
-               shadow-inner transition-all duration-200"
+                className={`${error && 'text-red-500 border-2 border-red-500'} w-full bg-gray-900/60 text-gray-100 placeholder:text-gray-500 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-100/50 shadow-inner transition-all duration-200`}
             />
 
             {helperText && (
-                <p className="text-md text-gray-300 mt-1">{helperText}</p>
+                <p className={`${error && 'text-red-500'} text-md text-gray-300 mt-1`}>{helperText}</p>
             )}
         </div>
 
