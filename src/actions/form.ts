@@ -172,3 +172,21 @@ export async function getFormContentByUrl(formUrl: string) {
         }
     })
 }
+
+export async function submitForm(formUrl: string, jsonContent: string) {
+    return await prisma.form.update({
+        data: {
+            submissions: {
+                increment: 1
+            },
+            formSubmissions: {
+                create: {
+                    content: jsonContent
+                }
+            }
+        },
+        where: {
+            shareURL: formUrl
+        }
+    })
+}

@@ -1,9 +1,10 @@
 "use client";
 
-import { SendHorizontal } from "lucide-react";
-import React, { useCallback, useRef, useState } from "react";
+import { Loader2, SendHorizontal } from "lucide-react";
+import React, { useCallback, useRef, useState, useTransition } from "react";
 import { FormElementInstance, FormElements } from "./formElements";
 import Toast from "./toast";
+import { submitForm } from "@/actions/form";
 
 const FormSubmitComponent = ({ formUrl, formContent, }: { formUrl: string; formContent: FormElementInstance[] }) => {
 
@@ -11,6 +12,8 @@ const FormSubmitComponent = ({ formUrl, formContent, }: { formUrl: string; formC
     const [renderKey, setRenderKey] = useState(new Date().getTime())
 
     const [submitted, setSubmitted] = useState(false)
+
+    const [pending, startTransition] = useTransition()
 
     const formValues = useRef<{ [key: string]: string }>({})
     const formErrors = useRef<{ [key: string]: boolean }>({})
@@ -37,11 +40,18 @@ const FormSubmitComponent = ({ formUrl, formContent, }: { formUrl: string; formC
         formValues.current[key] = value
     }, [])
 
-    const submitForm = () => {
+    const submitFormHandler = async () => {
         formErrors.current = {}
         const validForm = validateForm()
         if (!validForm) {
             setRenderKey(new Date().getTime())
+            setToast({ message: "something went wrong!", type: "error" });
+        }
+        try {
+            const jsonContent = JSON.stringify(formValues.current)
+            await submitForm(formUrl, jsonContent)
+            setSubmitted(true)
+        } catch (error) {
             setToast({ message: "check the form for errors", type: "error" });
         }
         console.log('form values: ', formValues.current)
@@ -83,13 +93,23 @@ const FormSubmitComponent = ({ formUrl, formContent, }: { formUrl: string; formC
                         );
                     })}
 
-                    {/* Submit Button */}
+
                     <button
-                        onClick={() => submitForm()}
-                        className="cursor-pointer mt-6 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] transition font-semibold tracking-wide shadow-[0_0_20px_rgba(16,185,129,0.25)]"
+                        disabled={pending}
+                        onClick={() => startTransition(submitFormHandler)}
+                        className={`cursor-pointer mt-6 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl ${pending ? "bg-emerald-500/70 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"} active:scale-[0.98] transition font-semibold tracking-wide shadow-[0_0_20px_rgba(16,185,129,0.25)]`}
                     >
-                        <SendHorizontal className="cursor-pointer w-5 h-5" />
-                        <span>Submit</span>
+                        {pending ? (
+                            <>
+                                <Loader2 className="w-5 h-5 animate-spin text-white" />
+                                <span className="text-gray-100">Submitting...</span>
+                            </>
+                        ) : (
+                            <>
+                                <SendHorizontal className="w-5 h-5" />
+                                <span>Submit</span>
+                            </>
+                        )}
                     </button>
 
                 </div>
