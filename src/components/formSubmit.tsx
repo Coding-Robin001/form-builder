@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, SendHorizontal } from "lucide-react";
+import { CheckCircle2, Loader2, SendHorizontal } from "lucide-react";
 import React, { useCallback, useRef, useState, useTransition } from "react";
 import { FormElementInstance, FormElements } from "./formElements";
 import Toast from "./toast";
@@ -55,6 +55,44 @@ const FormSubmitComponent = ({ formUrl, formContent, }: { formUrl: string; formC
             setToast({ message: "check the form for errors", type: "error" });
         }
         console.log('form values: ', formValues.current)
+    }
+
+    if (submitted) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center text-white p-6">
+                <div className="relative w-[320px] md:w-[400px] p-6 rounded-xl bg-gray-900/70 border border-gray-800 shadow-[0_0_25px_rgba(59,130,246,0.4)] backdrop-blur-md text-center animate-fadeIn">
+                    {/* bottom glow */}
+                    <div className="absolute inset-x-0 -bottom-[2px] h-[4px] bg-gradient-to-r from-blue-600 via-emerald-500 to-blue-600 blur-md rounded-full opacity-80"></div>
+
+                    <div className="flex flex-col items-center gap-4">
+                        <CheckCircle2 className="w-15 h-15 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.6)]" />
+                        <h1 className="text-[3rem] md:text-[2rem] font-semibold tracking-wide text-gray-100">
+                            Form submitted
+                        </h1>
+                        <p className="text-gray-400 text-md">
+                            Your response has been recorded successfully.
+                        </p>
+                    </div>
+                </div>
+
+                {/* simple fade-in animation */}
+                <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.6s ease-out forwards;
+        }
+      `}</style>
+            </div>
+        )
     }
 
     return (
