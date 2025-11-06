@@ -91,7 +91,6 @@ export default async function SubmissionsTable({ id }: { id: number }) {
     )
 }
 
-
 function RowCell({ type, value }: { type: ElementsType; value: string }) {
     let node: ReactNode = value
     return <td className='px-4 py-3 truncate'>{node}</td>

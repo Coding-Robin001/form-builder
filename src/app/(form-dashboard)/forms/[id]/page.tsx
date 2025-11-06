@@ -91,7 +91,6 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
             {/* Link Box */}
             <ShareLinkBox shareUrl={form.shareURL} />
 
-
             {/* Stats Section */}
             <section className="max-w-7xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statsConfig.map((item) => (
@@ -106,7 +105,6 @@ const FormDetailsPage = async ({ params }: { params: { id: string } }) => {
                     />
                 ))}
             </section>
-
 
             <hr className="my-14 border-t border-gray-800 opacity-80 max-w-7xl mx-auto" />
 
