@@ -186,7 +186,28 @@ export async function submitForm(formUrl: string, jsonContent: string) {
             }
         },
         where: {
-            shareURL: formUrl
+            shareURL: formUrl,
+            published: true
+        }
+    })
+}
+
+export async function getFormsWithSubmissions(id: number) {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    if (!session) {
+        throw new UserNotFoundErr()
+    }
+
+    return await prisma.form.findUnique({
+        where: {
+            userId: session.user.id,
+            id,
+        },
+        include: {
+            formSubmissions: true
         }
     })
 }
