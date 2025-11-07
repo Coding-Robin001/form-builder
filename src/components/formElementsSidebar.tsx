@@ -15,11 +15,13 @@ export default function FormElementsSidebar() {
                 </p>
                 <SideBarBtnElement formElement={FormElements.TitleField} />
                 <SideBarBtnElement formElement={FormElements.SubtitleField} />
+                <SideBarBtnElement formElement={FormElements.ParagraphField} />
 
                 <p className="col-span-2 text-sm text-gray-400 text-left my-2">
                     Form elements
                 </p>
                 <SideBarBtnElement formElement={FormElements.TextField} />
+
             </div>
         </div>
     );
