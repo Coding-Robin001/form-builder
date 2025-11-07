@@ -1,21 +1,20 @@
 "use client"
 
-import { Heading1 } from "lucide-react"
+import { Heading2 } from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
-import { useEffect, useState } from "react"
 
-const type: ElementsType = "TitleField"
+const type: ElementsType = "SubtitleField"
 
 const extraAttributes = {
-    title: "Title field",
+    title: "Subtitle field",
 }
 
-export const TitleFieldFormElement: FormElement = {
+export const SubtitleFieldFormElement: FormElement = {
     type,
     construct: (id: string) => ({ id, type, extraAttributes, }),
-    designerBtnElement: { icon: Heading1, label: "title field" },
+    designerBtnElement: { icon: Heading2, label: "subtitle field" },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
@@ -34,7 +33,7 @@ function FormComponent({ elementInstance }: { elementInstance: FormElementInstan
 
     const { title } = element.extraAttributes
 
-    return <p className="text-2xl ">{title}</p>
+    return <p className="text-lg ">{title}</p>
 }
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
@@ -45,9 +44,9 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
         <div className="h-[120px] flex flex-col justify-center gap-2 w-full text-sm bg-gray-800/70 p-4 border border-gray-600/60">
             {/* <label className="text-gray-100 text-[1.45rem] tracking-wide"> */}
             <label className="text-muted-foreground">
-                Title Field
+                Subtitle Field
             </label>
-            <p className="text-2xl">{title}</p>
+            <p className="text-lg">{title}</p>
         </div>
     )
 }
