@@ -21,14 +21,14 @@ export function SideBarBtnElement({ formElement }: { formElement: FormElement })
             className="
         flex flex-col items-center justify-center 
         bg-gray-900/60 hover:bg-gray-800 
-        text-sm font-medium text-gray-300 
+        text-md font-medium text-gray-300 
         rounded-lg py-3 cursor-pointer 
         border border-gray-800 hover:border-emerald-500/40 
         transition w-full
       "
         >
             {/* Icon */}
-            <Icon className="w-5 h-5 text-emerald-400 mb-1" />
+            <Icon className="w-6 h-6 text-emerald-400 mb-1" />
 
             {/* Label */}
             <span>{label}</span>

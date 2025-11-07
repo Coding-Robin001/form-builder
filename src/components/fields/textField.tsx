@@ -1,6 +1,6 @@
 "use client"
 
-import { ListChecks } from "lucide-react"
+import { TextCursorInput} from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
@@ -18,7 +18,7 @@ const extraAttributes = {
 export const TextFieldFormElement: FormElement = {
     type,
     construct: (id: string) => ({ id, type, extraAttributes, }),
-    designerBtnElement: { icon: ListChecks, label: "text field" },
+    designerBtnElement: { icon: TextCursorInput , label: "text field" },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
@@ -96,7 +96,7 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
 
     return (
         <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 border border-gray-600/60">
-            <label className="text-gray-100 text-[1.45rem] tracking-wide">
+            <label className="text-muted-foreground text-[1.25rem] tracking-wide">
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
