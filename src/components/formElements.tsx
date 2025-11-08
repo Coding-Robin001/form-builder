@@ -3,6 +3,7 @@ import { ParagraphFieldFormElement } from "./fields/paragraphField"
 import { SeperatorFieldFormElement } from "./fields/SeperatorField"
 import { SpaceFieldFormElement } from "./fields/spaceField"
 import { SubtitleFieldFormElement } from "./fields/subtitleField"
+import { TextAreaFieldFormElement } from "./fields/textAreaField"
 import { TextFieldFormElement, } from "./fields/textField"
 import { TitleFieldFormElement } from "./fields/titleField"
 
@@ -59,5 +60,6 @@ export const FormElements: FormElementsType = {
     ParagraphField: ParagraphFieldFormElement,
     SeperatorField: SeperatorFieldFormElement,
     SpaceField: SpaceFieldFormElement,
-    NumberField: NumberFieldFormElement
+    NumberField: NumberFieldFormElement,
+    TextAreaField: TextAreaFieldFormElement
 }

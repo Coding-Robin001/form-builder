@@ -1,24 +1,25 @@
 "use client"
 
-import { Hash } from "lucide-react"
+import { FileText } from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
 import { useEffect, useState } from "react"
 
-const type: ElementsType = "NumberField"
+const type: ElementsType = "TextAreaField"
 
 const extraAttributes = {
-    label: "Number field",
+    label: "Text Area",
     helperText: "helper text,",
     required: false,
-    placeholder: "0"
+    placeholder: "enter value here...",
+    rows: 3
 }
 
-export const NumberFieldFormElement: FormElement = {
+export const TextAreaFieldFormElement: FormElement = {
     type,
     construct: (id: string) => ({ id, type, extraAttributes, }),
-    designerBtnElement: { icon: Hash, label: "number field" },
+    designerBtnElement: { icon: FileText, label: "textArea field" },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
@@ -58,7 +59,7 @@ function FormComponent({
         setError(isInvalid === true)
     }, [isInvalid])
 
-    const { label, required, placeholder, helperText } = element.extraAttributes
+    const { label, required, placeholder, helperText, rows } = element.extraAttributes
 
     return (
         <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 rounded-lg">
@@ -67,13 +68,13 @@ function FormComponent({
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
 
-            <input
-                type="number"
+            <textarea
+                rows={rows}
                 placeholder={placeholder}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={(e) => {
                     if (!submitValue) return
-                    const valid = NumberFieldFormElement.validate(element, e.target.value)
+                    const valid = TextAreaFieldFormElement.validate(element, e.target.value)
                     setError(!valid)
                     if (!valid) return
                     submitValue(element.id, e.target.value)
@@ -92,7 +93,7 @@ function FormComponent({
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes
+    const { label, required, placeholder, helperText, rows } = element.extraAttributes
 
     return (
         <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 border border-gray-600/60">
@@ -100,8 +101,8 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
-            <input
-                type="number"
+            <textarea
+                type="text"
                 disabled
                 readOnly
                 placeholder={placeholder}
@@ -122,13 +123,14 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
 function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const { updateElement } = UseDesigner()
     const element = elementInstance as CustomInstance
-    const { label, required, placeholder, helperText } = element.extraAttributes
+    const { label, required, placeholder, helperText, rows } = element.extraAttributes
 
     type FieldValues = {
         label: string;
         placeholder: string;
         helperText: string;
         required: boolean;
+        rows: number;
     };
 
     // Initialize the form with existing values
@@ -138,6 +140,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
             placeholder,
             helperText,
             required,
+            rows
         },
     });
 
@@ -231,6 +234,47 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                     field.
                 </p>
             </div>
+
+
+            {/* rows*/}
+            <div>
+                <label htmlFor="helperText" className="block text-sm font-medium mb-1">
+                    Rows: {form.watch("rows")}
+                </label>
+                <Controller
+                    name="rows"
+                    control={form.control}
+                    render={({ field }) => (
+                        <input
+                            type="range"
+                            id="rows"
+                            min={1}
+                            max={10}
+                            step={1}
+                            value={field.value ?? 4}
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                            className="
+                            w-full h-2 
+                            bg-gray-800 
+                            rounded-lg appearance-none cursor-pointer
+                            accent-blue-500
+                            [&::-webkit-slider-thumb]:appearance-none 
+                            [&::-webkit-slider-thumb]:w-4 
+                            [&::-webkit-slider-thumb]:h-4 
+                            [&::-webkit-slider-thumb]:rounded-full 
+                            [&::-webkit-slider-thumb]:bg-blue-500 
+                            [&::-webkit-slider-thumb]:transition 
+                            [&::-webkit-slider-thumb]:hover:bg-blue-400
+                            [&::-moz-range-thumb]:w-4 
+                            [&::-moz-range-thumb]:h-4 
+                            [&::-moz-range-thumb]:rounded-full 
+                            [&::-moz-range-thumb]:bg-blue-500
+                        "
+                        />
+                    )}
+                />
+            </div>
+
 
             {/* Required */}
             <div className="flex items-center justify-between">
