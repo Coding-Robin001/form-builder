@@ -8,7 +8,7 @@ export default function FormElementsSidebar() {
             <p className="text-[0.9rem] font-semibold">Drag and drop elements</p>
             <hr className="my-4 border-t border-gray-800" />
 
-            <div className="grid grid-cols-2 gap-3 items-start">
+            <div className="grid grid-cols-2 gap-4 items-start">
                 {/* full-width label */}
                 <p className="col-span-2 text-sm text-gray-400 text-left my-2">
                     Layout elements

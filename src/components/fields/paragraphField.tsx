@@ -1,6 +1,6 @@
 "use client"
 
-import { Heading1, PilcrowRight } from "lucide-react"
+import { PilcrowRight } from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
@@ -71,7 +71,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
             ...element,
             extraAttributes: {
                 ...element.extraAttributes, // keep other fields intact
-                title: values.text,        // only update title
+                text: values.text,        // only update title
             },
         });
     }
@@ -84,15 +84,16 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
         >
             {/* Title Field */}
             <div>
-                <label htmlFor="title" className="block text-sm font-medium mb-1">
+                <label htmlFor="text" className="block text-sm font-medium mb-1">
                     Text
                 </label>
                 <Controller
                     name="text"
                     control={form.control}
-                    rules={{ required: "Enter a title" }}
+                    rules={{ required: "Enter text" }}
                     render={({ field }) => (
-                        <input
+                        <textarea
+                            rows={5}
                             {...field}
                             id="title"
                             className={`w-full bg-gray-800 border rounded-lg p-2 focus:outline-none focus:ring-2 ${form.formState.errors.text
