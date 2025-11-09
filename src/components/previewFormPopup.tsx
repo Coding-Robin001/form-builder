@@ -4,6 +4,7 @@ import { ArrowLeft, BadgeCheckIcon, SkipBackIcon, StepBack, StepBackIcon, X } fr
 import React from "react";
 import UseDesigner from "./hooks/useDesigner";
 import { FormElements } from "./formElements";
+import { SimpleCalendar } from "./simpleCalendar";
 
 export default function PreviewFormPopup({ onClose, formName }: { onClose: () => void, formName: string }) {
 
@@ -44,6 +45,8 @@ export default function PreviewFormPopup({ onClose, formName }: { onClose: () =>
                         </div>
                 }
             </div>
+
+            {/* <SimpleCalendar onSelect={() => console.log('seletc')} /> */}
         </div>
     );
 }
