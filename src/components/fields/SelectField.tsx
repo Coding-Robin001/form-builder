@@ -1,25 +1,26 @@
 "use client"
 
-import { Calendar, Calendar1Icon, TextCursorInput, X } from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../formElements"
 import UseDesigner from "../hooks/useDesigner"
 import { useForm, Controller } from "react-hook-form"
-import { useEffect, useRef, useState } from "react"
-import { SimpleCalendar } from "../simpleCalendar"
-import { format } from "date-fns"
+import { useEffect, useState } from "react"
+import Toast from "../toast"
 
-const type: ElementsType = "DateField"
+const type: ElementsType = "SelectField"
 
 const extraAttributes = {
-    label: "Date field",
-    helperText: "pick a date",
+    label: "Select field",
+    helperText: "helper text,",
     required: false,
+    placeholder: "select option",
+    options: []
 }
 
-export const DateFieldFormElement: FormElement = {
+export const SelectFieldFormElement: FormElement = {
     type,
     construct: (id: string) => ({ id, type, extraAttributes, }),
-    designerBtnElement: { icon: Calendar, label: "date field" },
+    designerBtnElement: { icon: ChevronsUpDown, label: "select field" },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
@@ -47,112 +48,58 @@ function FormComponent({
     elementInstance: FormElementInstance;
     submitValue: SubmitFunction;
     isInvalid?: boolean;
-    defaultValue?: string
+    defaultValue?: string;
 }) {
 
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as CustomInstance;
 
-    const [date, setDate] = useState<Date | undefined>(
-        defaultValue ? new Date(defaultValue) : undefined
-    );
+    const [value, setValue] = useState(defaultValue || "");
     const [error, setError] = useState(false);
-    const [showCalendar, setShowCalendar] = useState(false);
-    const popoverRef = useRef<HTMLDivElement | null>(null);
-
 
     useEffect(() => {
-        setError(isInvalid === true)
-    }, [isInvalid])
+        setError(isInvalid === true);
+    }, [isInvalid]);
 
-    // Close popover on outside click
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-                setShowCalendar(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    // Select a date
-    const handleSelectDate = (selected: Date) => {
-        setDate(selected);
-        setShowCalendar(false);
-
-        if (!submitValue) return;
-        const formatted = selected.toUTCString() || "";
-        const valid = DateFieldFormElement.validate(element, formatted); // your validate logic can go here
-        setError(!valid);
-        if (valid) submitValue(element.id, formatted);
-    };
-
-    const { label, required, helperText } = element.extraAttributes
+    const { label, required, placeholder, helperText, options } = element.extraAttributes;
 
     return (
-        <div className="relative flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 rounded-lg">
-            <label
-                className={`${error && "text-red-500"} text-gray-200 text-[1.4rem] tracking-wide`}
-            >
+        <div className="flex flex-col gap-2 w-full text-sm bg-gray-800/70 p-4 rounded-lg">
+            <label className={`${error && 'text-red-500'} text-gray-200 text-[1.4rem] tracking-wide`}>
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
 
-            {/* Button that toggles calendar */}
-            <button
-                onClick={() => setShowCalendar((prev) => !prev)}
-                className={`cursor-pointer flex items-center justify-start w-full text-left font-normal px-3 py-2 rounded-lg border transition-all duration-200 
-      ${showCalendar ? "bg-gray-700 border-emerald-500" : "bg-gray-900/60 border-gray-700 hover:border-gray-500"} 
-      ${error ? "border-red-500 text-red-500" : "text-gray-100"}`}
+            {/* SELECT FIELD */}
+            <select
+                value={value}   // <= controlled value
+                onChange={(e) => {
+                    const newValue = e.target.value;
+                    setValue(newValue)
+                    if (!submitValue) return
+                    const valid = SelectFieldFormElement.validate(element, value)
+                    setError(!valid)
+                    submitValue(element.id, newValue); // <= send to backend logic
+                }}
+                className={`${error && 'border-red-500'} w-full bg-gray-900 text-gray-200 px-3 py-2 rounded-md border border-gray-700 focus:outline-none focus:border-emerald-500`}
             >
-                <Calendar1Icon
-                    className={`mr-2 h-4 w-4 ${showCalendar ? "text-emerald-400" : "text-gray-400"}`}
-                />
-                {date ? (
-                    <span className="text-gray-100">{date.toDateString()}</span>
-                ) : (
-                    <span className="text-gray-500">Pick a date</span>
-                )}
-            </button>
+                {/* Placeholder (only visible when value === "") */}
+                <option value="" disabled hidden>
+                    {placeholder || "Select an option"}
+                </option>
+                {
+                    options.map((option) => (
+                        <option value={option} key={option}>{option}</option>
+                    ))
+                }
+            </select>
 
-            {/* Helper Text */}
             {helperText && (
-                <p
-                    className={`${error && "text-red-500"} text-md text-gray-300 mt-1`}
-                >
+                <p className={`${error && 'text-red-500'} text-md text-gray-300 mt-1`}>
                     {helperText}
                 </p>
             )}
-
-            {/* Calendar Popover */}
-            {showCalendar && (
-                <div
-                    ref={popoverRef}
-                    className="absolute left-0 top-full mt-2 z-[9999] bg-gray-900 text-gray-200 border border-gray-700 rounded-lg shadow-lg w-[280px]"
-                >
-                    {/* Header row with Close icon */}
-                    <div className="flex items-center justify-between border-b border-gray-700 px-3 py-2">
-                        <span className="text-sm font-semibold text-gray-300">Select Date</span>
-                        <button
-                            onClick={() => setShowCalendar(false)}
-                            className="p-1 rounded hover:bg-gray-800 text-gray-400 hover:text-gray-200 transition"
-                            aria-label="Close calendar"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
-                    </div>
-
-                    {/* Calendar body */}
-                    <div className="p-3">
-                        <SimpleCalendar onSelect={handleSelectDate} selectedDate={date} />
-                    </div>
-                </div>
-            )}
-
         </div>
-
-
-    )
+    );
 }
 
 function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
@@ -165,37 +112,48 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
                 {label}
                 {required && <span className="text-red-400 ml-1">*</span>}
             </label>
-            <button className="ml-4 w-full flex justify-start text-left font-normal ">
-                <Calendar1Icon className="mr-2 h-4 w-4 " />
-                <span>pick a date</span>
-            </button>
+
+            {/* SELECT FIELD */}
+            <select
+                className="w-full bg-gray-900 text-gray-200 px-3 py-2 rounded-md border border-gray-700 focus:outline-none focus:border-emerald-500"
+                defaultValue=""
+            >
+                {/* Placeholder */}
+                <option value="" disabled hidden>
+                    {placeholder || "Select an option"}
+                </option>
+            </select>
 
             {helperText && (
-                <p className="text-md text-gray-300 mt-1"> {helperText} </p>
+                <p className="text-md text-gray-300 mt-1">{helperText}</p>
             )}
         </div>
     )
 }
 
 function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const { updateElement } = UseDesigner()
+    const { updateElement, setSelectedElement } = UseDesigner()
     const element = elementInstance as CustomInstance
-    const { label, required, helperText } = element.extraAttributes
+    const { label, required, placeholder, helperText, options } = element.extraAttributes
 
     type FieldValues = {
         label: string;
+        placeholder: string;
         helperText: string;
         required: boolean;
+        options: string[];
     };
 
     // Initialize the form with existing values
     const form = useForm<FieldValues>({
         defaultValues: {
             label,
+            placeholder,
             helperText,
             required,
-        },
-    });
+            options: options || [],
+        }
+    })
 
     // Called when the "Apply Changes" button is pressed
     function applyChanges(values: FieldValues) {
@@ -242,6 +200,30 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                 </p>
             </div>
 
+            {/* Placeholder */}
+            <div>
+                <label
+                    htmlFor="placeholder"
+                    className="block text-sm font-medium mb-1"
+                >
+                    Placeholder
+                </label>
+                <Controller
+                    name="placeholder"
+                    control={form.control}
+                    render={({ field }) => (
+                        <input
+                            {...field}
+                            id="placeholder"
+                            className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    )}
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                    The placeholder of the field.
+                </p>
+            </div>
+
             {/* Helper Text */}
             <div>
                 <label htmlFor="helperText" className="block text-sm font-medium mb-1">
@@ -263,6 +245,63 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                     field.
                 </p>
             </div>
+
+
+            {/* select option properties */}
+            {/* OPTIONS SETTINGS */}
+            <div className="mt-6">
+                <label className="block text-sm font-medium mb-2">
+                    Options
+                </label>
+
+                {/* Add option button */}
+                <button
+                    type="button"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-gray-600 bg-gray-800 hover:bg-gray-700 text-sm"
+                    onClick={() => {
+                        const current = form.getValues("options") || [];
+                        form.setValue("options", [...current, "New option"]);
+                    }}
+                >
+                    + Add
+                </button>
+
+                {/* List of editable options */}
+                <div className="flex flex-col gap-2 mt-3">
+                    {form.watch("options")?.map((option: string, index: number) => (
+                        <div key={index} className="flex items-center gap-2">
+                            <input
+                                value={option}
+                                onChange={(e) => {
+                                    const updated = [...form.getValues("options")];
+                                    updated[index] = e.target.value;
+                                    form.setValue("options", updated);
+                                }}
+                                className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                            />
+
+                            {/* Remove option button */}
+                            <button
+                                type="button"
+                                className="px-2 py-1 bg-red-600 hover:bg-red-500 rounded text-xs"
+                                onClick={() => {
+                                    const updated = form.getValues("options").filter(
+                                        (_, i) => i !== index
+                                    );
+                                    form.setValue("options", updated);
+                                }}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <p className="text-xs text-gray-400 mt-2">
+                    Add choices that will appear in the select dropdown.
+                </p>
+            </div>
+
 
             {/* Required */}
             <div className="flex items-center justify-between">
